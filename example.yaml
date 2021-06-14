@@ -1,0 +1,74 @@
+name: my_data_product
+domain: my_domain
+version: 1.0.0
+environment:
+  name: develop
+  specific: {}
+outputPorts:
+  - name: my_raw_s3_port
+    resourceType: raw
+    technology: s3_cdp
+    description: s3 raw output port
+    allow:
+    - user-1
+    owner: user-2
+    dependsOn: []
+    specific:
+      directory: history
+      bucket: ms-datamesh-s3
+  - name: my_view_impala_port
+    resourceType: view
+    technology: impala_cdp
+    description: impala view output port
+    allow:
+    - user-1
+    owner: user-2
+    dependsOn: [my_raw_s3_port]
+    specific:
+      database: my_database
+      table: my_table
+      location: /my_path
+      schema:
+        firstName: string
+        lastName: string
+      format: PARQUET
+workloads:
+  - name: my_spark_workload
+    resourceType: batch
+    technology: spark
+    description: spark batch workload
+    dependsOn: [my_raw_s3_port]
+    specific:
+      artifactory: ms-datamesh-s3
+      artefact: /path/to/my/spark/workload.jar
+      service: my_cdp_service
+      cluster: my_cde_cluster
+      className: com.mycompany.MySparkApp
+      args:
+       - arg1
+       - arg2
+      driverCores: 1
+      driverMemory: 4g
+      executorCores: 4
+      executorMemory: 4g
+      numExecutors: 3
+      schedule:
+        cronExpression: 0 0 0,22 ? * * *
+observability:
+  name: my_observability
+  description: observability for my data product
+  specific:
+    restApiName: obs_api
+    stageName: data_mesh
+    bucket: ms-datamesh-s3
+    obsEndpoint:
+      - artifact: path/to/my/obs_dq.jar
+        handler: com.mycompany.MyHandler::handleRequest
+        lambdaname: my_data_product_obs_dq
+        awsResourceName: my_data_product_obs_dq
+        awsResourcePath: /develop/my_domain/my_data_product/1.0.0/obs/data_quality
+      - artifact: path/to/my/obs_workload.jar
+        handler: com.mycompany.MyHandler::handleRequest
+        lambdaname: my_data_product_obs_workload
+        awsResourceName: my_data_product_obs_workload
+        awsResourcePath: /develop/my_domain/my_data_product/1.0.0/obs/workload
