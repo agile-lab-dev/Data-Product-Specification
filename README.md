@@ -3,7 +3,7 @@
 This repository wants to define an open specification to define data products with the following principles in mind:
 - DP as an indipendent unit of deployment
 - Technology indipendence
-- extensibility
+- Extensibility
 
 With an open specification will be possible to create services for automatic deployment and interoperable components to build a dat amesh platform.
 
@@ -18,6 +18,17 @@ The DP is composed by a general section with DP level information and four sub-s
 
 Each DP Trait ( Outputport, workload, observability ) will have a well defined and fixed structure and a "specific" one to handle technology specific stuff.
 The fixed structure must be technology agnostic.
+
+### General
+
+* Name: [String] the identifier of the Data Product
+* Domain: [String] the identifier of the domain this DP is belonging to
+* Description: [String] detailed description about what functional area this DP is representing, what purpose has and business related information.
+* Version: [String] this is representing the version of the DP, because we consider the DP as an indipendent unit of deployment, so if a breaking change is needed, we create a brand new versionof the DP
+* Owner: [String] Data Product Owner, it could be useful to insert some contact also like the email.
+* Status: [String] This is an enum representing the status of this version of the DP [ Draft|Published|Retired ]
+
+The unique identifier of a DataProduct is the concatenation of Domain, Name and Version. So we will refer to the DP_UK as a string composed in the following way $DPDomain.$DPName.$DPVersion
 
 
 ### Environment
@@ -43,6 +54,13 @@ The fixed structure must be technology agnostic.
 
 ### Workloads
 
+* Name: [String] the identifier of the workload
+* ResourceType: [String] explain what type of workload is, at the moment: batch or streaming
+* Type: [String] This is an enum [HouseKeeping|DataPipeline], Housekeeping is for all the workloads that are acting on internal data without any external dependency. DataPipeline instead is for workloads that are reading from outputport of other DP or external systems.
+* Technology: [String] this is a list of technologies: Airflow, Spark, Scala. It is a free field but it is useful to understand better how it is behaving
+* Description: [String] detailed explaination about the purpose of the workload, what sources is reading, what business logic is apllying, etc
+* DependsOn: [Array[String]] This is filled only for DataPipeline workloads and it represents the list of output ports or external systems that is reading. Output Ports are identified with DP_UK.OutputPort_Name, while external systems will be defined by a string EX_$systemdescription. Here we can elaborate a bit more and create a more semantic struct.
+* Specific: [Yaml] this is a custom section where we can put all the information strictly related to a specific technology or dependent from a standard/policy defined in the federated governance.
 
 
 ### Observability
