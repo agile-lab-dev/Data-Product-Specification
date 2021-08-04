@@ -33,6 +33,8 @@ The unique identifier of a DataProduct is the concatenation of Domain, Name and 
 
 ### Environment
 
+* Name: [String] The name of the environment
+* Specific: [Yaml] this is a custom section where we can put all the information strictly related to a specific environment. We use this to set Base Path for API or for bucket names.
 
 
 ### Output Ports
