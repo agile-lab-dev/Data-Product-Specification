@@ -4,6 +4,7 @@ description: this data product is representing the xxx functional entity
 version: 1.0.0
 owner: Tom Smith
 email: mailto:tom.smith@corp.com
+informationSLA: 2WD
 status: work in progress
 environment:
   name: develop
