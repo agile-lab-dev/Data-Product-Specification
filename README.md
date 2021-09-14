@@ -26,6 +26,8 @@ The fixed structure must be technology agnostic.
 * Description: [String] detailed description about what functional area this DP is representing, what purpose has and business related information.
 * Version: [String] this is representing the version of the DP, because we consider the DP as an indipendent unit of deployment, so if a breaking change is needed, we create a brand new versionof the DP
 * Owner: [String] Data Product Owner, it could be useful to insert some contact also like the email.
+* Email: [String] Point of contact, it could be the owner or a distribution list, but must be reliable and responsive.
+* InformationSLA: [String] Describe what SLA the DP team is providing for additional information about the DP
 * Status: [String] This is an enum representing the status of this version of the DP [ Draft|Published|Retired ]
 
 The unique identifier of a DataProduct is the concatenation of Domain, Name and Version. So we will refer to the DP_UK as a string composed in the following way $DPDomain.$DPName.$DPVersion
@@ -43,8 +45,12 @@ The unique identifier of a DataProduct is the concatenation of Domain, Name and 
 * ResourceType: [String] the kind of output port: raw - SQL - Events. This should be extendible with GraphQL or others.
 * Technology: [String] the underlying technology is useful for the consumer to understand better how to consume the output port and also needed for self serve provisioning specific stuff.
 * Description: [String] detailed explanation about the function and the meaning of the output port
+* issueDate: [String] when this output port has been created
+* startDate: [String] the first business date present in the dataset, leave it null for events or we can use some standard semantic like: "-7D, -1Y"
+* lastRefresh: [String] last business date contained in the dataset, for events you can leave it null or use a standard notation like: "now"
 * ProcessDescription: [String] what is the underlying process that contributes to generate the data exposed by this output port
 * BillingPolicy: [String] how a consumer will be charged back when it consumes this output port
+* SecurityPolicy: [String] additional information related to security aspects, like restrictions, maskings, sensibile information
 * ConsumerPolicy: [String] any other information needed by the consumer in order to effectively consume the data, it could be related to technical stuff, regulation, security, etc.
 * Endpoint: [URL] this is the API endpoint that self-describe the output port and provide insightful information at runtime about the physical location of the data, the protocol must be used, etc
 * Allow: [Array[String]] It is an array of user/role/group related to the specific technology ( each technology will have an associated authentication system ( Azure AD, AWS IAM, etc ). This field is defining who has access in read-only to this specific output port
