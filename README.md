@@ -47,7 +47,6 @@ The unique identifier of a DataProduct is the concatenation of Domain, Name and 
 * Description: [String] detailed explanation about the function and the meaning of the output port
 * issueDate: [String] when this output port has been created
 * startDate: [String] the first business date present in the dataset, leave it null for events or we can use some standard semantic like: "-7D, -1Y"
-* lastRefresh: [String] last business date contained in the dataset, for events you can leave it null or use a standard notation like: "now"
 * ProcessDescription: [String] what is the underlying process that contributes to generate the data exposed by this output port
 * BillingPolicy: [String] how a consumer will be charged back when it consumes this output port
 * SecurityPolicy: [String] additional information related to security aspects, like restrictions, maskings, sensibile information
