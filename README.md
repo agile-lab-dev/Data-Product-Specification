@@ -51,6 +51,9 @@ The unique identifier of a DataProduct is the concatenation of Domain, Name and 
 * BillingPolicy: [String] how a consumer will be charged back when it consumes this output port
 * SecurityPolicy: [String] additional information related to security aspects, like restrictions, maskings, sensibile information
 * ConsumerPolicy: [String] any other information needed by the consumer in order to effectively consume the data, it could be related to technical stuff, regulation, security, etc.
+* SLO:[Yaml]
+  * IntervalOfChange: [String] How often changes in the data are reflected
+  * Timeliness: [String] The skew between the time that a business fact occuts and when it becomes visibile in the data
 * Endpoint: [URL] this is the API endpoint that self-describe the output port and provide insightful information at runtime about the physical location of the data, the protocol must be used, etc
 * Allow: [Array[String]] It is an array of user/role/group related to the specific technology ( each technology will have an associated authentication system ( Azure AD, AWS IAM, etc ). This field is defining who has access in read-only to this specific output port
 * Owner: [String] It is the user/role/group with write privileges for this outputport. This identity can be used only by DP internal processes and the provisioning service.
@@ -71,5 +74,19 @@ The unique identifier of a DataProduct is the concatenation of Domain, Name and 
 
 
 ### Observability
+
+Observability should be applied to each Outputport and is better to represent it as the Swagger of an API rather than something declarative like a Yaml, because it will expose runtime metrics and statistics.
+Anyway is good to formalize what kind of information should be included and verified at deploy time for the observability API:
+
+* Completeness: degree of availability of all the necessary information along the entire history
+* DataProfiling: Volume, distribution of volume along time, range of values, column values distribution and other statistics
+* Freshness: 
+* Availability:
+* DataQuality: DataQuality is something that should be customizable but well standardized by the Federated Governance.
+
+
+
+
+
 
 
