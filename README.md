@@ -29,6 +29,7 @@ The fixed structure must be technology agnostic.
 * Email: [String] Point of contact, it could be the owner or a distribution list, but must be reliable and responsive.
 * InformationSLA: [String] Describe what SLA the DP team is providing for additional information about the DP
 * Status: [String] This is an enum representing the status of this version of the DP [ Draft|Published|Retired ]
+* Billing: [Yaml]. This is a free form key-value area where is possible to put information useful for resource tagging and billing.
 * Tags: [Array[String]] Free tags at DP level
 
 The unique identifier of a DataProduct is the concatenation of Domain, Name and Version. So we will refer to the DP_UK as a string composed in the following way $DPDomain.$DPName.$DPVersion
