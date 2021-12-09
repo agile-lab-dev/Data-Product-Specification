@@ -1,11 +1,11 @@
-# Data-Product-Specification
+# Data Product Specification
 
 This repository wants to define an open specification to define data products with the following principles in mind:
 - DP as an indipendent unit of deployment
 - Technology indipendence
 - Extensibility
 
-With an open specification will be possible to create services for automatic deployment and interoperable components to build a dat amesh platform.
+With an open specification will be possible to create services for automatic deployment and interoperable components to build a Data Mesh platform.
 
 
 # Data Product structure
