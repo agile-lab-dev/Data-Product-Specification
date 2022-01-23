@@ -35,7 +35,7 @@ The fixed structure must be technology agnostic.
 * `Status: [String]` This is an enum representing the status of this version of the DP `[Draft|Published|Retired]`
 * `Maturity: [String]` This is an enum to let the consumer understand if it is a tactical solution or not. It is really useful during migration from DWH or data lake [Tactical|Strategic]
 * `Billing: [Yaml]` This is a free form key-value area where is possible to put information useful for resource tagging and billing.
-* `Tags: [Array[String]]` Free tags at DP level
+* `Tags: [Array[Yaml]]` Free tags at DP level ( please refer to OpenMetadata https://docs.open-metadata.org/openmetadata/schemas/entities/tagcategory )
 * `Specific: [Yaml]` this is a custom section where we can put all the information strictly related to a specific execution environment. It can also refer to an additional file. At this level we also embed all the information to provision the general infrastructure ( resource groups, networking, etc ) needed for a specific Data Product. For example if a company decide to create a ResourceGroup for each data product and have a subscription reference for each domain and environment, it will be specified at this level. Also it is reccommended to put general security here, Azure Policy or IAM policies, VPC/Vnet, Subnet. THis will be filled merging data from 
 
 The **unique identifier** of a DataProduct is the concatenation of Domain, Name and Version. So we will refer to the `DP_UK` as a string composed in the following way `$DPDomain.$DPName.$DPVersion`
@@ -64,7 +64,7 @@ The **unique identifier** of a DataProduct is the concatenation of Domain, Name 
 * `Endpoint: [URL]` this is the API endpoint that self-describe the output port and provide insightful information at runtime about the physical location of the data, the protocol must be used, etc
 * `Allow: [Array[String]]` It is an array of user/role/group related to the specific technology ( each technology will have an associated authentication system ( Azure AD, AWS IAM, etc ). This field is defining who has access in read-only to this specific output port
 * `DependsOn: [Array[String]]` An output port could depend on other output ports or storage areas, for example a SQL Output port could be dependent on a Raw Output Port because it is just an external table.
-* `Tags: [Array[String]]` Free tags at OutputPort level
+* `Tags: [Array[Yaml]]` Free tags at OutputPort level ( please refer to OpenMetadata https://docs.open-metadata.org/openmetadata/schemas/entities/tagcategory )
 * `SampleData: [Yaml]` - Provide a sample data of your outputport. See OpenMetadata specification: https://docs.open-metadata.org/openmetadata/schemas/entities/table#tabledata
 * `Schema: [Array[Yaml]]` When it comes to describe a schema we propose to leverage OpenMetadata specification: Ref https://docs.open-metadata.org/openmetadata/schemas/entities/table#column. Each column can have a tag array and you can choose between simples LabelTags, ClassificationTags or DescriptiveTags. Here an example of classification Tag https://github.com/open-metadata/OpenMetadata/blob/main/catalog-rest-service/src/main/resources/json/data/tags/piiTags.json
 * `Specific: [Yaml]` this is a custom section where we can put all the information strictly related to a specific technology or dependent from a standard/policy defined in the federated governance.
@@ -81,14 +81,14 @@ The **unique identifier** of a DataProduct is the concatenation of Domain, Name 
 * `ResourceType: [String]` explain what type of workload is: Ingestion ETL, Streaming, Internal Process, etc.
 * `Technology: [String]` this is a list of technologies: Airflow, Spark, Scala. It is a free field but it is useful to understand better how it is behaving
 * `Description: [String]` detailed explaination about the purpose of the workload, what sources is reading, what business logic is apllying, etc
-* `Tags: [Array[String]]` Free tags at Workload level
+* `Tags: [Array[Yaml]]` Free tags at Workload level ( please refer to OpenMetadata https://docs.open-metadata.org/openmetadata/schemas/entities/tagcategory )
 * `Specific: [Yaml]` this is a custom section where we can put all the information strictly related to a specific technology or dependent from a standard/policy defined in the federated governance.
 
 
 ### Storage Area
 
 * `ID: [String]` UUID
-* `Name: [String]` the identifier of the workload
+* `Name: [String]` the identifier of the Storage Area
 * `FullyQualifiedName: [String]` Human-readable that uniquely identifies an entity
 * `DisplayName: [String]` Optional name used for display purposes
 * `ResourceType: [String]` explain what type of workload is, at the moment: batch or streaming
@@ -96,7 +96,7 @@ The **unique identifier** of a DataProduct is the concatenation of Domain, Name 
 * `Technology: [String]` this is a list of technologies: S3, ADLS, GFS.
 * `Description: [String]` detailed explanation about the function and the meaning of this storage area
 * `DependsOn: [Array[String]]` This is filled only for `DataPipeline` workloads and it represents the list of output ports or external systems that is reading. Output Ports are identified with `DP_UK.OutputPort_Name`, while external systems will be defined by a string `EX_$systemdescription`. Here we can elaborate a bit more and create a more semantic struct.
-* `Tags: [Array[String]]` Free tags at Workload level
+* `Tags: [Array[Yaml]]` Free tags at OutputPort level ( please refer to OpenMetadata https://docs.open-metadata.org/openmetadata/schemas/entities/tagcategory )
 * `Specific: [Yaml]` this is a custom section where we can put all the information strictly related to a specific technology or dependent from a standard/policy defined in the federated governance.
 
 
