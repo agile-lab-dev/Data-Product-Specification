@@ -67,6 +67,7 @@ The **unique identifier** of a DataProduct is the concatenation of Domain, Name 
 * `Tags: [Array[Yaml]]` Free tags at OutputPort level ( please refer to OpenMetadata https://docs.open-metadata.org/openmetadata/schemas/entities/tagcategory )
 * `SampleData: [Yaml]` - Provide a sample data of your outputport. See OpenMetadata specification: https://docs.open-metadata.org/openmetadata/schemas/entities/table#tabledata
 * `Schema: [Array[Yaml]]` When it comes to describe a schema we propose to leverage OpenMetadata specification: Ref https://docs.open-metadata.org/openmetadata/schemas/entities/table#column. Each column can have a tag array and you can choose between simples LabelTags, ClassificationTags or DescriptiveTags. Here an example of classification Tag https://github.com/open-metadata/OpenMetadata/blob/main/catalog-rest-service/src/main/resources/json/data/tags/piiTags.json
+* `SemanticLinking: [Yaml]` Here we can express semantic relationships between this output port and other outputports ( also coming from other domains and data products ) 
 * `Specific: [Yaml]` this is a custom section where we can put all the information strictly related to a specific technology or dependent from a standard/policy defined in the federated governance.
  
 
