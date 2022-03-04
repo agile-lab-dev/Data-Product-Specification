@@ -22,10 +22,9 @@ The fixed structure must be technology agnostic.
 
 ### General
 
-* `ID: [String]` UUID
-* `Name: [String]` the identifier of the Data Product
+* `ID: [String]` the unique identifier of the Data Product --> this will never change in the life of a DP
+* `Name: [String]` the name of DP
 * `FullyQualifiedName: [String]` Human-readable that uniquely identifies an entity
-* `DisplayName: [String]` Optional name used for display purposes
 * `Domain: [String]` the identifier of the domain this DP is belonging to
 * `Description: [String]` detailed description about what functional area this DP is representing, what purpose has and business related information.
 * `Version: [String]` this is representing the version of the DP, because we consider the DP as an indipendent unit of deployment, so if a breaking change is needed, we create a brand new versionof the DP
@@ -38,17 +37,16 @@ The fixed structure must be technology agnostic.
 * `Tags: [Array[Yaml]]` Free tags at DP level ( please refer to OpenMetadata https://docs.open-metadata.org/openmetadata/schemas/entities/tagcategory )
 * `Specific: [Yaml]` this is a custom section where we can put all the information strictly related to a specific execution environment. It can also refer to an additional file. At this level we also embed all the information to provision the general infrastructure ( resource groups, networking, etc ) needed for a specific Data Product. For example if a company decide to create a ResourceGroup for each data product and have a subscription reference for each domain and environment, it will be specified at this level. Also it is reccommended to put general security here, Azure Policy or IAM policies, VPC/Vnet, Subnet. THis will be filled merging data from 
 
-The **unique identifier** of a DataProduct is the concatenation of Domain, Name and Version. So we will refer to the `DP_UK` as a string composed in the following way `$DPDomain.$DPName.$DPVersion`
+The **unique identifier** of a DataProduct is the concatenation of Domain, Name and Version. So we will refer to the `DP_UK` as a string composed in the following way `$DPDomain.$DPID.$DPVersion`
 
 
 
 
 ### Output Ports
 
-* `ID: [String]` UUID
-* `Name: [String]` the identifier of the output port
+* `ID: [String]` the unique identifier of the output port --> not modifiable
+* `Name: [String]` the name of the DP
 * `FullyQualifiedName: [String]` Human-readable that uniquely identifies an entity
-* `DisplayName: [String]` Optional name used for display purposes
 * `ResourceType: [String]` the kind of output port: Files - SQL - Events. This should be extendible with GraphQL or others.
 * `Technology: [String]` the underlying technology is useful for the consumer to understand better how to consume the output port and also needed for self serve provisioning specific stuff.
 * `Description: [String]` detailed explanation about the function and the meaning of the output port
@@ -74,25 +72,23 @@ The **unique identifier** of a DataProduct is the concatenation of Domain, Name 
 
 ### Workloads
 
-* `ID: [String]` UUID
-* `Name: [String]` the identifier of the workload
+* `ID: [String]` the unique identifier of the workload
+* `Name: [String]` the name of the workload
 * `FullyQualifiedName: [String]` Human-readable that uniquely identifies an entity
-* `DisplayName: [String]` Optional name used for display purposes
 * `Description: [String]` detailed description about the process, its purpose and characteristics
 * `ResourceType: [String]` explain what type of workload is: Ingestion ETL, Streaming, Internal Process, etc.
 * `Technology: [String]` this is a list of technologies: Airflow, Spark, Scala. It is a free field but it is useful to understand better how it is behaving
 * `Description: [String]` detailed explaination about the purpose of the workload, what sources is reading, what business logic is apllying, etc
 * `Tags: [Array[Yaml]]` Free tags at Workload level ( please refer to OpenMetadata https://docs.open-metadata.org/openmetadata/schemas/entities/tagcategory )
-* `DependsOn: [Array[String]]` This is filled only for `DataPipeline` workloads and it represents the list of output ports or external systems that is reading. Output Ports are identified with `DP_UK.OutputPort_Name`, while external systems will be defined by a string `EX_$systemdescription`. Here we can elaborate a bit more and create a more semantic struct.
+* `ReadsFrom: [Array[String]]` This is filled only for `DataPipeline` workloads and it represents the list of output ports or external systems that is reading. Output Ports are identified with `DP_UK.OutputPort_ID`, while external systems will be defined by a string `EX_$systemdescription`. Here we can elaborate a bit more and create a more semantic struct.
 * `Specific: [Yaml]` this is a custom section where we can put all the information strictly related to a specific technology or dependent from a standard/policy defined in the federated governance.
 
 
 ### Storage Area
 
-* `ID: [String]` UUID
-* `Name: [String]` the identifier of the Storage Area
+* `ID: [String]` the unique identifier of the Storage Area
+* `Name: [String]` the name of the Storage Area
 * `FullyQualifiedName: [String]` Human-readable that uniquely identifies an entity
-* `DisplayName: [String]` Optional name used for display purposes
 * `ResourceType: [String]` explain what type of workload is, at the moment: batch or streaming
 * `Type: [String]` This is an enum `[HouseKeeping|DataPipeline]`, `Housekeeping` is for all the workloads that are acting on internal data without any external dependency. `DataPipeline` instead is for workloads that are reading from outputport of other DP or external systems.
 * `Technology: [String]` this is a list of technologies: S3, ADLS, GFS.
@@ -106,10 +102,9 @@ The **unique identifier** of a DataProduct is the concatenation of Domain, Name 
 Observability should be applied to each Outputport and is better to represent it as the Swagger of an API rather than something declarative like a Yaml, because it will expose runtime metrics and statistics.
 Anyway is good to formalize what kind of information should be included and verified at deploy time for the observability API:
 
-* `ID: [String]` UUID
-* `Name: [String]` the identifier of the observability API
+* `ID: [String]` the unique identifier of the observability API
+* `Name: [String]` the name of the observability API
 * `FullyQualifiedName: [String]` Human-readable that uniquely identifies an entity
-* `DisplayName: [String]` Optional name used for display purposes
 * `Description: [String]` detailed explanation about what this observability is exposing
 * `Endpoint: [URL]` this is the API endpoint that will expose the observability for each OutputPort
 
