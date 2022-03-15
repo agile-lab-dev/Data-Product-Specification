@@ -113,7 +113,7 @@ Anyway is good to formalize what kind of information should be included and veri
 * DataProfiling: [Yaml] Volume, distribution of volume along time, range of values, column values distribution and other statistics. Please refer to OpenMetadata to get our default implementation https://docs.open-metadata.org/openmetadata/schemas/entities/table#tableprofile. Keep in mind that this is the kind of standard that a company need to set based on its needs.
 * Freshness: [Yaml]
 * Availability: [Yaml]
-* DataQuality: [Yaml] DataQuality is something that should be customizable but well standardized by the Federated Governance.
+* DataQuality: [Yaml] Describe data quality rules will be applied to the data, using the format you prefer.
 
 
 
