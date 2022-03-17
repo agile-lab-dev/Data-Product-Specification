@@ -28,7 +28,8 @@ The fixed structure must be technology agnostic.
 * `Domain: [String]` the identifier of the domain this DP is belonging to
 * `Description: [String]` detailed description about what functional area this DP is representing, what purpose has and business related information.
 * `Version: [String]` this is representing the version of the DP, because we consider the DP as an indipendent unit of deployment, so if a breaking change is needed, we create a brand new versionof the DP
-* `Owner: [String]` Data Product Owner, it could be useful to insert some contact also like the email.
+* `DataProductOwner: [String]` Data Product Owner, the actual user that receives the notifications about data product
+* `DevelopmentGroup: [String]` Development Group is a group of people which allows you to show or hide some data products from the people belonging to the specific group
 * `Email: [String]` Point of contact, it could be the owner or a distribution list, but must be reliable and responsive.
 * `InformationSLA: [String]` Describe what SLA the DP team is providing to answer additional information requests about the DP
 * `Status: [String]` This is an enum representing the status of this version of the DP `[Draft|Published|Retired]`
@@ -50,6 +51,8 @@ The **unique identifier** of a DataProduct is the concatenation of Domain, Name 
 * `ResourceType: [String]` the kind of output port: Files - SQL - Events. This should be extendible with GraphQL or others.
 * `Technology: [String]` the underlying technology is useful for the consumer to understand better how to consume the output port and also needed for self serve provisioning specific stuff.
 * `Description: [String]` detailed explanation about the function and the meaning of the output port
+* `DataProductOwner: [String]` Data Product Owner, the actual user that receives the notifications about output port
+* `DevelopmentGroup: [String]` Development Group is a group of people which allows you to show or hide some output ports from the people belonging to the specific group
 * `CreationDate: [String]` when this output port has been created
 * `StartDate: [String]` the first business date present in the dataset, leave it null for events or we can use some standard semantic like: "-7D, -1Y"
 * `ProcessDescription: [String]` what is the underlying process that contributes to generate the data exposed by this output port
@@ -79,6 +82,8 @@ The **unique identifier** of a DataProduct is the concatenation of Domain, Name 
 * `ResourceType: [String]` explain what type of workload is: Ingestion ETL, Streaming, Internal Process, etc.
 * `Technology: [String]` this is a list of technologies: Airflow, Spark, Scala. It is a free field but it is useful to understand better how it is behaving
 * `Description: [String]` detailed explaination about the purpose of the workload, what sources is reading, what business logic is apllying, etc
+* `DataProductOwner: [String]` Data Product Owner, the actual user that receives the notifications about workload
+* `DevelopmentGroup: [String]` Development Group is a group of people which allows you to show or hide some workloads from the people belonging to the specific group
 * `Tags: [Array[Yaml]]` Free tags at Workload level ( please refer to OpenMetadata https://docs.open-metadata.org/openmetadata/schemas/entities/tagcategory )
 * `ReadsFrom: [Array[String]]` This is filled only for `DataPipeline` workloads and it represents the list of output ports or external systems that is reading. Output Ports are identified with `DP_UK.OutputPort_ID`, while external systems will be defined by a string `EX_$systemdescription`. Here we can elaborate a bit more and create a more semantic struct.
 * `Specific: [Yaml]` this is a custom section where we can put all the information strictly related to a specific technology or dependent from a standard/policy defined in the federated governance.
