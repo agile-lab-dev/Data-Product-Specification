@@ -23,12 +23,17 @@ The fixed structure must be technology agnostic.
 ### General
 
 * `ID: [String]` the unique identifier of the Data Product --> this will never change in the life of a DP
+* * Constraints:
+* * * Allowed characters are `[a-zA-Z]` and `[_-]`
+* * * Data product ID is made of `$DPDomain.$DPIdentifier.$DPMajorVersion`
 * `Name: [String]` the name of DP
 * `FullyQualifiedName: [String]` Human-readable that uniquely identifies an entity
 * `Domain: [String]` the identifier of the domain this DP is belonging to
 * `Description: [String]` detailed description about what functional area this DP is representing, what purpose has and business related information.
-* `Version: [String]` this is representing the version of the DP, because we consider the DP as an indipendent unit of deployment, so if a breaking change is needed, we create a brand new versionof the DP
-* `Owner: [String]` Data Product Owner, it could be useful to insert some contact also like the email.
+* `Version: [String]` this is representing the version of the DP, because we consider the DP as an indipendent unit of deployment, so if a breaking change is needed, we create a brand new versionof the DP. If we introduce a new feature or patch it is not necessary create a new version, but we can change Y (new feature) or Z patch. Displayed as X.Y.Z where X is major version, Y is minor and Z is patch. Major version(X) is also shown in the ID and those 2 fields(version and ID) are always aligned with one another. 
+* * Constraints:
+* * * Major version of the data product is always the same as the major version of the components and it is the same version that is shown in both data product ID and component ID
+* `DataProductOwner: [String]` Data Product Owner, the actual user that receives the notifications about data product
 * `Email: [String]` Point of contact, it could be the owner or a distribution list, but must be reliable and responsive.
 * `InformationSLA: [String]` Describe what SLA the DP team is providing to answer additional information requests about the DP
 * `Status: [String]` This is an enum representing the status of this version of the DP `[Draft|Published|Retired]`
@@ -45,11 +50,17 @@ The **unique identifier** of a DataProduct is the concatenation of Domain, Name 
 ### Output Ports
 
 * `ID: [String]` the unique identifier of the output port --> not modifiable
+* * Constraints:
+* * * Allowed characters are `[a-zA-Z]` and `[_-]`
+* * * Output port ID is made of `$DPDomain.$DPIdentifier.$DPMajorVersion.$OutputPortIdentifier`
 * `Name: [String]` the name of the DP
 * `FullyQualifiedName: [String]` Human-readable that uniquely identifies an entity
 * `ResourceType: [String]` the kind of output port: Files - SQL - Events. This should be extendible with GraphQL or others.
 * `Technology: [String]` the underlying technology is useful for the consumer to understand better how to consume the output port and also needed for self serve provisioning specific stuff.
 * `Description: [String]` detailed explanation about the function and the meaning of the output port
+* `Version: [String]` Specific version of the output port. Displayed as X.Y.Z where X is the major version of the data product, Y is minor feature and Z is patch. Major version(X) is also shown in the component ID and those 2 fields(version and ID) are always aligned with one another. 
+* * Constraints:
+* * * Major version of the data product is always the same as the major version of the components and it is the same version that is shown in both data product ID and component ID
 * `CreationDate: [String]` when this output port has been created
 * `StartDate: [String]` the first business date present in the dataset, leave it null for events or we can use some standard semantic like: "-7D, -1Y"
 * `ProcessDescription: [String]` what is the underlying process that contributes to generate the data exposed by this output port
@@ -62,25 +73,34 @@ The **unique identifier** of a DataProduct is the concatenation of Domain, Name 
 * `Endpoint: [URL]` this is the API endpoint that self-describe the output port and provide insightful information at runtime about the physical location of the data, the protocol must be used, etc
 * `Allow: [Array[String]]` It is an array of user/role/group related to the specific technology ( each technology will have an associated authentication system ( Azure AD, AWS IAM, etc ). This field is defining who has access in read-only to this specific output port
 * `DependsOn: [Array[String]]` An output port could depend on other output ports or storage areas, for example a SQL Output port could be dependent on a Raw Output Port because it is just an external table.
+* * Constraints:
+* * * This array will only contain ID-s 
 * `Tags: [Array[Yaml]]` Free tags at OutputPort level ( please refer to OpenMetadata https://docs.open-metadata.org/openmetadata/schemas/entities/tagcategory )
 * `SampleData: [Yaml]` - Provide a sample data of your outputport. See OpenMetadata specification: https://docs.open-metadata.org/openmetadata/schemas/entities/table#tabledata
 * `Schema: [Array[Yaml]]` When it comes to describe a schema we propose to leverage OpenMetadata specification: Ref https://docs.open-metadata.org/openmetadata/schemas/entities/table#column. Each column can have a tag array and you can choose between simples LabelTags, ClassificationTags or DescriptiveTags. Here an example of classification Tag https://github.com/open-metadata/OpenMetadata/blob/main/catalog-rest-service/src/main/resources/json/data/tags/piiTags.json
 * `SemanticLinking: [Yaml]` Here we can express semantic relationships between this output port and other outputports ( also coming from other domains and data products ) 
 * `Specific: [Yaml]` this is a custom section where we can put all the information strictly related to a specific technology or dependent from a standard/policy defined in the federated governance.
- 
 
 
 ### Workloads
 
 * `ID: [String]` the unique identifier of the workload
+* * Constraints:
+* * * Allowed characters are `[a-zA-Z]` and `[_-]`
+* * * Workload ID is made of `$DPDomain.$DPIdentifier.$DPMajorVersion.$WorkloadIdentifier`
 * `Name: [String]` the name of the workload
 * `FullyQualifiedName: [String]` Human-readable that uniquely identifies an entity
 * `Description: [String]` detailed description about the process, its purpose and characteristics
 * `ResourceType: [String]` explain what type of workload is: Ingestion ETL, Streaming, Internal Process, etc.
 * `Technology: [String]` this is a list of technologies: Airflow, Spark, Scala. It is a free field but it is useful to understand better how it is behaving
 * `Description: [String]` detailed explaination about the purpose of the workload, what sources is reading, what business logic is apllying, etc
+* `Version: [String]` Specific version of the workload. Displayed as X.Y.Z where X is the major version of the data product, Y is minor feature and Z is patch. Major version(X) is also shown in the component ID and those 2 fields(version and ID) are always aligned with one another. 
+* * Constraints:
+* * * Major version of the data product is always the same as the major version of the components and it is the same version that is shown in both data product ID and component ID
 * `Tags: [Array[Yaml]]` Free tags at Workload level ( please refer to OpenMetadata https://docs.open-metadata.org/openmetadata/schemas/entities/tagcategory )
 * `ReadsFrom: [Array[String]]` This is filled only for `DataPipeline` workloads and it represents the list of output ports or external systems that is reading. Output Ports are identified with `DP_UK.OutputPort_ID`, while external systems will be defined by a string `EX_$systemdescription`. Here we can elaborate a bit more and create a more semantic struct.
+* * Constraints:
+* * * This array will only contain ID-s 
 * `Specific: [Yaml]` this is a custom section where we can put all the information strictly related to a specific technology or dependent from a standard/policy defined in the federated governance.
 
 
@@ -114,10 +134,3 @@ Anyway is good to formalize what kind of information should be included and veri
 * Freshness: [Yaml]
 * Availability: [Yaml]
 * DataQuality: [Yaml] Describe data quality rules will be applied to the data, using the format you prefer.
-
-
-
-
-
-
-
