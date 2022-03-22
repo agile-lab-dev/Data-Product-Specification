@@ -52,7 +52,6 @@ The **unique identifier** of a DataProduct is the concatenation of Domain, Name 
 * `Technology: [String]` the underlying technology is useful for the consumer to understand better how to consume the output port and also needed for self serve provisioning specific stuff.
 * `Description: [String]` detailed explanation about the function and the meaning of the output port
 * `Version: [String]` Specific version of the output port. Displayed as X.Y.Z where X is the major version of the data product, Y is minor feature and Z is patch. Major version(X) is also shown in the component ID and those 2 fields(version and ID) are always aligned with one another. 
-* `DataProductOwner: [String]` Data Product Owner, the actual user that receives the notifications about output port
 * `DevelopmentGroup: [String]` DevelopmentGroup is a group of people which allows you to show or hide some output ports from the people belonging to the specific group
 * `CreationDate: [String]` when this output port has been created
 * `StartDate: [String]` the first business date present in the dataset, leave it null for events or we can use some standard semantic like: "-7D, -1Y"
@@ -83,7 +82,6 @@ The **unique identifier** of a DataProduct is the concatenation of Domain, Name 
 * `Technology: [String]` this is a list of technologies: Airflow, Spark, Scala. It is a free field but it is useful to understand better how it is behaving
 * `Description: [String]` detailed explaination about the purpose of the workload, what sources is reading, what business logic is apllying, etc
 * `Version: [String]` Specific version of the workload. Displayed as X.Y.Z where X is the major version of the data product, Y is minor feature and Z is patch. Major version(X) is also shown in the component ID and those 2 fields(version and ID) are always aligned with one another. 
-* `DataProductOwner: [String]` Data Product Owner, the actual user that receives the notifications about workload
 * `DevelopmentGroup: [String]` DevelopmentGroup is a group of people which allows you to show or hide some workloads from the people belonging to the specific group
 * `Tags: [Array[Yaml]]` Free tags at Workload level ( please refer to OpenMetadata https://docs.open-metadata.org/openmetadata/schemas/entities/tagcategory )
 * `ReadsFrom: [Array[String]]` This is filled only for `DataPipeline` workloads and it represents the list of output ports or external systems that is reading. Output Ports are identified with `DP_UK.OutputPort_ID`, while external systems will be defined by a string `EX_$systemdescription`. Here we can elaborate a bit more and create a more semantic struct.
