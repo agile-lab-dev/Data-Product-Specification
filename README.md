@@ -92,6 +92,7 @@ The **unique identifier** of a DataProduct is the concatenation of Domain, Name 
 * `FullyQualifiedName: [String]` Human-readable that uniquely identifies an entity
 * `Description: [String]` detailed description about the process, its purpose and characteristics
 * `ResourceType: [String]` explain what type of workload is: Ingestion ETL, Streaming, Internal Process, etc.
+* `Type: [String]` This is an enum `[HouseKeeping|DataPipeline]`, `Housekeeping` is for all the workloads that are acting on internal data without any external dependency. `DataPipeline` instead is for workloads that are reading from outputport of other DP or external systems.
 * `Technology: [String]` this is a list of technologies: Airflow, Spark, Scala. It is a free field but it is useful to understand better how it is behaving
 * `Description: [String]` detailed explaination about the purpose of the workload, what sources is reading, what business logic is apllying, etc
 * `Version: [String]` Specific version of the workload. Displayed as X.Y.Z where X is the major version of the data product, Y is minor feature and Z is patch. Major version(X) is also shown in the component ID and those 2 fields(version and ID) are always aligned with one another. 
@@ -109,11 +110,9 @@ The **unique identifier** of a DataProduct is the concatenation of Domain, Name 
 * `ID: [String]` the unique identifier of the Storage Area
 * `Name: [String]` the name of the Storage Area
 * `FullyQualifiedName: [String]` Human-readable that uniquely identifies an entity
-* `ResourceType: [String]` explain what type of workload is, at the moment: batch or streaming
-* `Type: [String]` This is an enum `[HouseKeeping|DataPipeline]`, `Housekeeping` is for all the workloads that are acting on internal data without any external dependency. `DataPipeline` instead is for workloads that are reading from outputport of other DP or external systems.
-* `Technology: [String]` this is a list of technologies: S3, ADLS, GFS.
+* `Technology: [String]` this is a list of technologies: S3, ADLS, SQLServer, Kafka.
 * `Description: [String]` detailed explanation about the function and the meaning of this storage area
-* `Tags: [Array[Yaml]]` Free tags at OutputPort level ( please refer to OpenMetadata https://docs.open-metadata.org/openmetadata/schemas/entities/tagcategory )
+* `Tags: [Array[Yaml]]` Free tags at Storage area level ( please refer to OpenMetadata https://docs.open-metadata.org/openmetadata/schemas/entities/tagcategory )
 * `Specific: [Yaml]` this is a custom section where we can put all the information strictly related to a specific technology or dependent from a standard/policy defined in the federated governance.
 
 
