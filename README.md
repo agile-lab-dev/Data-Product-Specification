@@ -40,7 +40,7 @@ The fixed structure must be technology agnostic.
 * `Status: [String]` This is an enum representing the status of this version of the DP `[Draft|Published|Retired]`
 * `Maturity: [String]` This is an enum to let the consumer understand if it is a tactical solution or not. It is really useful during migration from DWH or data lake [Tactical|Strategic]
 * `Billing: [Yaml]` This is a free form key-value area where is possible to put information useful for resource tagging and billing.
-* `Tags: [Array[Yaml]]` Free tags at DP level ( please refer to OpenMetadata https://docs.open-metadata.org/openmetadata/schemas/entities/tagcategory )
+* `Tags: [Array[Yaml]]` Tag labels at DP level ( please refer to OpenMetadata https://docs.open-metadata.org/metadata-standard/schemas/types/taglabel )
 * `Specific: [Yaml]` this is a custom section where we can put all the information strictly related to a specific execution environment. It can also refer to an additional file. At this level we also embed all the information to provision the general infrastructure ( resource groups, networking, etc ) needed for a specific Data Product. For example if a company decide to create a ResourceGroup for each data product and have a subscription reference for each domain and environment, it will be specified at this level. Also it is reccommended to put general security here, Azure Policy or IAM policies, VPC/Vnet, Subnet. THis will be filled merging data from 
 
 The **unique identifier** of a DataProduct is the concatenation of Domain, Name and Version. So we will refer to the `DP_UK` as a string composed in the following way `$DPDomain.$DPID.$DPVersion`
@@ -79,7 +79,7 @@ The **unique identifier** of a DataProduct is the concatenation of Domain, Name 
 * `DependsOn: [Array[String]]` An output port could depend on other output ports or storage areas, for example a SQL Output port could be dependent on a Raw Output Port because it is just an external table.
 * * Constraints:
 * * * This array will only contain ID-s 
-* `Tags: [Array[Yaml]]` Free tags at OutputPort level ( please refer to OpenMetadata https://docs.open-metadata.org/openmetadata/schemas/entities/tagcategory )
+* `Tags: [Array[Yaml]]` Tag labels at OutputPort level ( please refer to OpenMetadata https://docs.open-metadata.org/metadata-standard/schemas/types/taglabel )
 * `SampleData: [Yaml]` - Provide a sample data of your outputport. See OpenMetadata specification: https://docs.open-metadata.org/openmetadata/schemas/entities/table#tabledata
 * `Schema: [Array[Yaml]]` When it comes to describe a schema we propose to leverage OpenMetadata specification: Ref https://docs.open-metadata.org/openmetadata/schemas/entities/table#column. Each column can have a tag array and you can choose between simples LabelTags, ClassificationTags or DescriptiveTags. Here an example of classification Tag https://github.com/open-metadata/OpenMetadata/blob/main/catalog-rest-service/src/main/resources/json/data/tags/piiTags.json
 * `SemanticLinKind: [Yaml]` Here we can express semantic relationships between this output port and other outputports ( also coming from other domains and data products ) 
@@ -105,7 +105,7 @@ The **unique identifier** of a DataProduct is the concatenation of Domain, Name 
 * * * Major version of the data product is always the same as the major version of the components and it is the same version that is shown in both data product ID and component ID
 * `InfrastructureTemplateId` the id of the microservice responsible for provisioning the component. A microservice may be capable of provisioning several UseCaseTemplateId 
 * `UseCaseTemplateId` the id of the template used in the builder to create the component
-* `Tags: [Array[Yaml]]` Free tags at Workload level ( please refer to OpenMetadata https://docs.open-metadata.org/openmetadata/schemas/entities/tagcategory )
+* `Tags: [Array[Yaml]]` Tag labels at Workload level ( please refer to OpenMetadata https://docs.open-metadata.org/metadata-standard/schemas/types/taglabel )
 * `ReadsFrom: [Array[String]]` This is filled only for `DataPipeline` workloads and it represents the list of output ports or external systems that is reading. Output Ports are identified with `DP_UK.OutputPort_ID`, while external systems will be defined by a string `EX_$systemdescription`. Here we can elaborate a bit more and create a more semantic struct.
 * * Constraints:
 * * * This array will only contain ID-s 
@@ -129,7 +129,7 @@ The **unique identifier** of a DataProduct is the concatenation of Domain, Name 
 * `Owners: [Array[String]]` It is an array of user/role/group related to LDAP/AD user. This field defines who has all permissions on this specific storage area
 * `InfrastructureTemplateId` the id of the microservice responsible for provisioning the component. A microservice may be capable of provisioning several UseCaseTemplateId 
 * `UseCaseTemplateId` the id of the template used in the builder to create the component
-* `Tags: [Array[Yaml]]` Free tags at Storage area level ( please refer to OpenMetadata https://docs.open-metadata.org/openmetadata/schemas/entities/tagcategory )
+* `Tags: [Array[Yaml]]` Tag labels at Storage area level ( please refer to OpenMetadata https://docs.open-metadata.org/metadata-standard/schemas/types/taglabel )
 * `Specific: [Yaml]` this is a custom section where we can put all the information strictly related to a specific technology or dependent from a standard/policy defined in the federated governance.
 
 
