@@ -37,6 +37,8 @@ The fixed structure must be technology agnostic. The first fields of teh fixed s
 * `DataProductOwner: [String]` Data Product owner, the unique identifier of the actual user that owns, manages, and receives notifications about the Data Product. To make it technology independent it is usually the email address of the owner.
 * `DataProductOwnerDisplayName [String]`: the human readable version of `DataProductOwner`.
 * `Email: [Option[String]]` point of contact between consumers and maintainers of the Data Product. It could be the owner or a distribution list, but must be reliable and responsive.
+* `OwnerGroup [String]`: LDAP user/group that is owning the data product
+* `DevGroup [String]`: LDAP user/group that is in charge to develop and maintain the data product
 * `InformationSLA: [Option[String]]` describes what SLA the Data Product team is providing to answer additional information requests about the Data Product itself.
 * `Status: [Option[String]]` this is an enum representing the status of this version of the Data Product. Allowed values are: `[Draft|Published|Retired]`. This is a metadata that communicates the overall status of the Data Product but is not reflected to the actual deployment status.
 * `Maturity: [Option[String]]` this is an enum to let the consumer understand if it is a tactical solution or not. It is really useful during migration from Data Warehouse or Data Lake. Allowed values are: `[Tactical|Strategic]`.
@@ -62,8 +64,6 @@ Constraints:
   * Major version of the Data Product is always the same as the major version of all of its components and it is the same version that is shown in both Data Product ID and component ID.
 * `InfrastructureTemplateId: [String]` the id of the microservice responsible for provisioning the component. A microservice may be capable of provisioning several components generated from different use case templates. 
 * `UseCaseTemplateId: [Option[String]]` the id of the template used in the builder to create the component. Could be empty in case the component was not created from a builder template.
-* `Allows: [Array[String]]` It is an array of user/role/group related to LDAP/AD user. This field is defining who has access in read-only to this specific output port.
-* `Owners: [Array[String]]` It is an array of user/role/group related to LDAP/AD user. This field defines who has all permissions on this specific output port.
 * `DependsOn: [Array[String]]` An output port could depend on other output ports or storage areas, for example a SQL Output port could be dependent on a Raw Output Port because it is just an external table.
 Constraints:
   * This array will only contain IDs of other components.
@@ -73,16 +73,25 @@ Constraints:
 * `CreationDate: [Optional[String]]` when this output port has been created.
 * `StartDate: [Optional[String]]` the first business date present in the dataset, leave it empty for events or we can use some standard semantic like: "-7D, -1Y".
 * `ProcessDescription: [Option[String]]` what is the underlying process that contributes to generate the data exposed by this output port.
-* `BillingPolicy: [Option[String]]` how a consumer will be charged back when it consumes this output port.
-* `SecurityPolicy: [Option[String]]` additional information related to security aspects, like restrictions, maskings, sensibile information.
-* `ConsumptionPolicy: [Option[String]]` any other information needed by the consumer in order to effectively consume the data, it could be related to technical stuff, regulation, security, etc.
-* `SLO:[Yaml]`
-  * `IntervalOfChange: [Option[String]]` how often changes in the data are reflected.
-  * `Timeliness: [Option[String]]` the skew between the time that a business fact occuts and when it becomes visibile in the data.
-* `Endpoint: [Option[URL]]` this is the API endpoint that self-describe the output port and provide insightful information at runtime about the physical location of the data, the protocol must be used, etc.
-* `Tags: [Array[Yaml]]` free tags at OutputPort level (please refer to OpenMetadata https://docs.open-metadata.org/openmetadata/schemas/entities/tagcategory)
+* `DataContract: [Yaml]`: In case something is going to change in this section, it represents a breaking change because the producer is breaking the contract, this will require to create a new version of the data product to keep backward compatibility
+  * `Schema: [Array[Yaml]]` when it comes to describe a schema we propose to leverage OpenMetadata specification: Ref https://docs.open-metadata.org/metadata-standard/schemas/entities/table#column. Each column can have a tag array and you can choose between simples LabelTags, ClassificationTags or DescriptiveTags. Here an example of classification Tag https://github.com/open-metadata/OpenMetadata/blob/main/catalog-rest-service/src/main/resources/json/data/tags/piiTags.json.
+  * `SLA: [Yaml]` Service Level Agreement, describe the quality of data delivery and the outpu tport in general. It represents the producer's overall promise to the consumers
+    * `IntervalOfChange: [Option[String]]` how often changes in the data are reflected.
+    * `Timeliness: [Option[String]]` the skew between the time that a business fact occuts and when it becomes visibile in the data.
+    * `UpTime: [Option[String]]` the percentage of port availability.
+  * `TermsAndConditions: [Option[String]]` If the data is usable only in specific environments
+  * `Endpoint: [Option[URL]]` this is the API endpoint that self-describe the output port and provide insightful information at runtime about the physical location of the data, the protocol must be used, etc.
+* `DataSharingAgreement: [Yaml]` This part is coveringusage, privacy, purpose, limitations and is indipendent by the data contract
+  * `Purpose: [Option[String]]` what is the goal of this data set
+  * `Billing: [Option[String]]` how a consumer will be charged back when it consumes this output port.
+  * `Security: [Option[String]]` additional information related to security aspects, like restrictions, maskings, sensibile information and privacy.
+  * `IntendedUsage: [Option[String]]` any other information needed by the consumer in order to effectively consume the data, it could be related to technical stuff ( ex. Extract no more than one year of data for good performances ) or to business domains ( Ex. this data is only useful in the marketing domains ) 
+  * `Limitations: [Option[String]]` If any limitation is present it must be made super clear to the consumers.
+  * `LifeCycle: [Option[String]]` Describe how the data will be historicized and how and when it will be deleted
+  * `Confidentiality: [Option[String]]` Describe what a consumer should do to keep the information confidential, how to process and store it. Permission to share or report it.
+* `Tags: [Array[Yaml]]` free tags at OutputPort level, here we can have security classification for example (please refer to OpenMetadata https://docs.open-metadata.org/openmetadata/schemas/entities/tagcategory)
 * `SampleData: [Option[Yaml]]` provides a sample data of your Output Port. See OpenMetadata specification: https://docs.open-metadata.org/openmetadata/schemas/entities/table#tabledata
-* `Schema: [Array[Yaml]]` when it comes to describe a schema we propose to leverage OpenMetadata specification: Ref https://docs.open-metadata.org/metadata-standard/schemas/entities/table#column. Each column can have a tag array and you can choose between simples LabelTags, ClassificationTags or DescriptiveTags. Here an example of classification Tag https://github.com/open-metadata/OpenMetadata/blob/main/catalog-rest-service/src/main/resources/json/data/tags/piiTags.json.
+
 * `SemanticLinking: [Option[Yaml]]` here we can express semantic relationships between this output port and other outputports (also coming from other domains and data products). For example we could say that column "customerId" of our SQL Output Port references the column "id" of the SQL Output Port of the "Customer" Data Product.
 * `Specific: [Yaml]` this is a custom section where we must put all the information strictly related to a specific technology or dependent from a standard/policy defined in the federated governance.
 
