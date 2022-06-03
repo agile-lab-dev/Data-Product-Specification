@@ -1,0 +1,24 @@
+name: test-compliancy
+
+on:
+  push:
+    branches:
+      - '**'
+
+jobs:
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up Go
+      uses: actions/setup-go@v3
+      with:
+        go-version: 1.18
+    - name: Install Cue
+      run: |
+        go install cuelang.org/go/cmd/cue@latest
+
+    - name: Test
+      run: cue vet example.yaml data-product-specification.cue
