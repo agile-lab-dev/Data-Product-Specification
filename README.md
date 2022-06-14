@@ -43,7 +43,7 @@ The fixed structure must be technology agnostic. The first fields of teh fixed s
 * `Status: [Option[String]]` this is an enum representing the status of this version of the Data Product. Allowed values are: `[Draft|Published|Retired]`. This is a metadata that communicates the overall status of the Data Product but is not reflected to the actual deployment status.
 * `Maturity: [Option[String]]` this is an enum to let the consumer understand if it is a tactical solution or not. It is really useful during migration from Data Warehouse or Data Lake. Allowed values are: `[Tactical|Strategic]`.
 * `Billing: [Option[Yaml]]` this is a free form key-value area where is possible to put information useful for resource tagging and billing.
-* `Tags: [Array[Yaml]]` free tags at Data Product level (please refer to OpenMetadata https://docs.open-metadata.org/openmetadata/schemas/entities/tagcategory).
+* `Tags: [Array[Yaml]]` Tag labels at DP level ( please refer to OpenMetadata https://docs.open-metadata.org/metadata-standard/schemas/types/taglabel).
 * `Specific: [Yaml]` this is a custom section where we can put all the information strictly related to a specific execution environment. It can also refer to an additional file. At this level we also embed all the information to provision the general infrastructure (resource groups, networking, etc) needed for a specific Data Product. For example if a company decides to create a ResourceGroup for each data product and have a subscription reference for each domain and environment, it will be specified at this level. Also it is reccommended to put general security here, Azure Policy or IAM policies, VPC/Vnet, Subnet. This will be filled merging data defined at common level with values defined specifically for the selected environment.
 
 The **unique identifier** of a Data Product is the concatenation of Domain, Name and Version. So we will refer to the `DP_UK` as a URN which ends in the following way: `$DPDomain:$DPName:$DPMajorVersion`.
@@ -75,23 +75,22 @@ Constraints:
 * `ProcessDescription: [Option[String]]` what is the underlying process that contributes to generate the data exposed by this output port.
 * `DataContract: [Yaml]`: In case something is going to change in this section, it represents a breaking change because the producer is breaking the contract, this will require to create a new version of the data product to keep backward compatibility
   * `Schema: [Array[Yaml]]` when it comes to describe a schema we propose to leverage OpenMetadata specification: Ref https://docs.open-metadata.org/metadata-standard/schemas/entities/table#column. Each column can have a tag array and you can choose between simples LabelTags, ClassificationTags or DescriptiveTags. Here an example of classification Tag https://github.com/open-metadata/OpenMetadata/blob/main/catalog-rest-service/src/main/resources/json/data/tags/piiTags.json.
-  * `SLA: [Yaml]` Service Level Agreement, describe the quality of data delivery and the outpu tport in general. It represents the producer's overall promise to the consumers
+  * `SLA: [Yaml]` Service Level Agreement, describe the quality of data delivery and the output port in general. It represents the producer's overall promise to the consumers.
     * `IntervalOfChange: [Option[String]]` how often changes in the data are reflected.
     * `Timeliness: [Option[String]]` the skew between the time that a business fact occuts and when it becomes visibile in the data.
     * `UpTime: [Option[String]]` the percentage of port availability.
-  * `TermsAndConditions: [Option[String]]` If the data is usable only in specific environments
+  * `TermsAndConditions: [Option[String]]` If the data is usable only in specific environments.
   * `Endpoint: [Option[URL]]` this is the API endpoint that self-describe the output port and provide insightful information at runtime about the physical location of the data, the protocol must be used, etc.
-* `DataSharingAgreement: [Yaml]` This part is coveringusage, privacy, purpose, limitations and is indipendent by the data contract
-  * `Purpose: [Option[String]]` what is the goal of this data set
+* `DataSharingAgreement: [Yaml]` This part is covering usage, privacy, purpose, limitations and is indipendent by the data contract.
+  * `Purpose: [Option[String]]` what is the goal of this data set.
   * `Billing: [Option[String]]` how a consumer will be charged back when it consumes this output port.
   * `Security: [Option[String]]` additional information related to security aspects, like restrictions, maskings, sensibile information and privacy.
-  * `IntendedUsage: [Option[String]]` any other information needed by the consumer in order to effectively consume the data, it could be related to technical stuff ( ex. Extract no more than one year of data for good performances ) or to business domains ( Ex. this data is only useful in the marketing domains ) 
+  * `IntendedUsage: [Option[String]]` any other information needed by the consumer in order to effectively consume the data, it could be related to technical stuff (e.g. extract no more than one year of data for good performances ) or to business domains (e.g. this data is only useful in the marketing domains).
   * `Limitations: [Option[String]]` If any limitation is present it must be made super clear to the consumers.
-  * `LifeCycle: [Option[String]]` Describe how the data will be historicized and how and when it will be deleted
+  * `LifeCycle: [Option[String]]` Describe how the data will be historicized and how and when it will be deleted.
   * `Confidentiality: [Option[String]]` Describe what a consumer should do to keep the information confidential, how to process and store it. Permission to share or report it.
-* `Tags: [Array[Yaml]]` free tags at OutputPort level, here we can have security classification for example (please refer to OpenMetadata https://docs.open-metadata.org/openmetadata/schemas/entities/tagcategory)
+* `Tags: [Array[Yaml]]` Tag labels at OutputPort level, here we can have security classification for example (please refer to OpenMetadata https://docs.open-metadata.org/metadata-standard/schemas/types/taglabel).
 * `SampleData: [Option[Yaml]]` provides a sample data of your Output Port. See OpenMetadata specification: https://docs.open-metadata.org/openmetadata/schemas/entities/table#tabledata
-
 * `SemanticLinking: [Option[Yaml]]` here we can express semantic relationships between this output port and other outputports (also coming from other domains and data products). For example we could say that column "customerId" of our SQL Output Port references the column "id" of the SQL Output Port of the "Customer" Data Product.
 * `Specific: [Yaml]` this is a custom section where we must put all the information strictly related to a specific technology or dependent from a standard/policy defined in the federated governance.
 
@@ -115,7 +114,7 @@ Constraints:
 * `Technology: [Option[String]]` represents which technology is used to define the workload, like: Spark, Flink, pySpark, etc. The underlying technology is useful to understand better how the workload process data.
 * `WorkloadType: [Option[String]]` explains what type of workload is: Ingestion ETL, Streaming, Internal Process, etc.
 * `ConnectionType: [Option[String]]` an enum with allowed values: `[HouseKeeping|DataPipeline]`; `Housekeeping` is for all the workloads that are acting on internal data without any external dependency. `DataPipeline` instead is for workloads that are reading from outputport of other DP or external systems.
-* `Tags: [Array[Yaml]]` free tags at Workload level ( please refer to OpenMetadata https://docs.open-metadata.org/openmetadata/schemas/entities/tagcategory )
+* `Tags: [Array[Yaml]]` Tag labels at Workload level ( please refer to OpenMetadata https://docs.open-metadata.org/metadata-standard/schemas/types/taglabel).
 * `ReadsFrom: [Array[String]]` This is filled only for `DataPipeline` workloads and it represents the list of Output Ports or external systems that the workload uses as input. Output Ports are identified with `DP_UK:$OutputPortName`, while external systems will be defined by a URN in the form `urn:dmb:ex:$SystemName`. This filed can be elaborated more in the future and create a more semantic struct.
 Constraints:
   * This array will only contain Output Port IDs and/or external systems identifiers.
@@ -138,7 +137,7 @@ Constraints:
 * `Platform: [Option[String]]` represents the vendor: Azure, GCP, AWS, CDP on AWS, etc. It is a free field but it is useful to understand better the platform where the component will be running.
 * `Technology: [Option[String]]` represents which technology is used to define the storage area, like: S3, Kafka, Athena, etc. The underlying technology is useful to understand better how the data is internally stored.
 * `StorageType: [Option[String]]` the specific type of storage: Files, SQL, Events, etc.
-* `Tags: [Array[Yaml]]` free tags at Storage area level ( please refer to OpenMetadata https://docs.open-metadata.org/openmetadata/schemas/entities/tagcategory )
+* `Tags: [Array[Yaml]]` Tag labels at Storage area level ( please refer to OpenMetadata https://docs.open-metadata.org/metadata-standard/schemas/types/taglabel).
 * `Specific: [Yaml]` this is a custom section where we can put all the information strictly related to a specific technology or dependent from a standard/policy defined in the federated governance.
 
 
