@@ -1,0 +1,21 @@
+name: teams-notification
+
+on:
+  push:
+    branches:
+      - 'main'
+
+jobs:
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Send message to MS Teams
+        uses: dhollerbach/actions.send-message-to-ms-teams@1.0.10
+        env:
+          TEAMS_WEB_HOOK: ${{ secrets.TEAMSWEBHOOK }}
+        if: "${{ env.TEAMS_WEB_HOOK != '' }}"
+        with:
+          webhook: ${{ secrets.TEAMSWEBHOOK }}
+          message: 'New changes in the GitHub Data Product Specification'

@@ -1,4 +1,4 @@
-id: urn:dmb:dp:my_domain.my_data_product.1
+id: urn:dmb:dp:my_domain:my_data_product:1
 name: my data product
 fullyQualifiedName: My Data Product
 description: this data product is representing the xxx functional entity
@@ -18,7 +18,7 @@ billing: {}
 tags: []
 specific: {}
 components:
-  - id: urn:dmb:cmp:my_domain.my_data_product.1.my_raw_s3_port
+  - id: urn:dmb:cmp:my_domain:my_data_product:1:my_raw_s3_port
     name: my raw s3 port
     fullyQualifiedName: My Raw S3 Port
     description: s3 raw output port
@@ -49,14 +49,21 @@ components:
       limitations: is not possible to use this data without a compliance check
       lifeCycle: the maximum retention is 10 years, and eviction is happening on the first of january
       confidentiality: if you want to store this data somewhere else, PII columns must be masked    
-    tags: []
+    tags:
+      - tagFQN: experimental
+        source: Tag
+        labelType: Manual
+        state: Confirmed
+      - tagFQN: structured
+        source: Tag
+        labelType: Manual
+        state: Confirmed
     sampleData: {}
-    
     semanticLinking: {}
     specific:
       directory: history
       bucket: ms-datamesh-s3
-  - id: urn:dmb:cmp:my_domain.my_data_product.1.my_view_impala_port
+  - id: urn:dmb:cmp:my_domain:my_data_product:1:my_view_impala_port
     name: my view impala port
     fullyQualifiedName: My View Impala Port
     description: impala view output port
@@ -64,7 +71,7 @@ components:
     version: 1.1.0
     infrastructureTemplateId: microservice-id-2
     useCaseTemplateId: template-id-2
-    dependsOn: [urn:dmb:cmp:my_domain.my_data_product.1.my_raw_s3_port]
+    dependsOn: [urn:dmb:cmp:my_domain:my_data_product:1:my_raw_s3_port]
     platform: CDP on AWS
     technology: impala_cdp
     outputPortType: SQL
@@ -72,7 +79,11 @@ components:
     startDate:
     processDescription:
     dataContract:
-      schema: []
+      schema:
+        - name: name
+          dataType: string
+        - name: surname
+          dataType: string
       SLA:
         intervalOfChange: 1 hours
         timeliness: 1 minutes 
@@ -88,8 +99,17 @@ components:
       lifeCycle: the maximum retention is 10 years, and eviction is happening on the first of january
       confidentiality: if you want to store this data somewhere else, PII columns must be masked    
     tags: []
-    sampleData: {}
-    schema: []
+    sampleData:
+      columns:
+        - name
+        - surname
+      rows:
+        - - Jace
+          - Beleren
+        - - Gideon
+          - Jura
+        - - Chandra
+          - Nalaar
     semanticLinking: {}
     specific:
       database: my_database
@@ -99,7 +119,7 @@ components:
         firstName: string
         lastName: string
       format: PARQUET
-  - id: urn:dmb:cmp:my_domain.my_data_product.1.my_spark_workload
+  - id: urn:dmb:cmp:my_domain:my_data_product:1:my_spark_workload
     name: my spark workload
     fullyQualifiedName: My Spark workload
     description: spark batch workload
@@ -129,11 +149,15 @@ components:
       numExecutors: 3
       schedule:
         cronExpression: 0 0 0,22 ? * * *
-  - id: urn:dmb:cmp:my_domain.my_data_product.1.my_observability
+  - id: urn:dmb:cmp:my_domain:my_data_product:1:my_observability
     name: my observability
     fullyQualifiedName: My Observability
     description: observability for my data product
-    endpoint: /develop/my_domain/my_data_product/1.0.0/obs
+    kind: observability
+    infrastructureTemplateId: microservice-id-4
+    useCaseTemplateId: template-id-4
+    version: 1.1.1
+    endpoint: http://develop/my_domain/my_data_product/1.0.0/obs
     completeness:
     dataProfiling:
     freshness:
