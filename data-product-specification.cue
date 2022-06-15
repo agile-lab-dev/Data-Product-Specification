@@ -4,13 +4,15 @@ package generic_dp
 
 import "strings"
 
-#Version:       string & =~"^[0-9]+\\.[0-9]+\\..+$"
-#Id:            string & =~"^[a-zA-Z0-9:._-]+$"
-#DataProductId: #Id & =~"^urn:dmb:dp:\(domain):[a-zA-Z0-9_-]+:\(majorVersion)$"
-#ComponentId:   #Id & =~"^urn:dmb:cmp:\(domain):[a-zA-Z0-9_-]+:\(majorVersion):[a-zA-Z0-9_-]+$"
-#URL:           string & =~"^https?://[a-zA-Z0-9@:%._~#=&/?]*$"
-#OM_DataType:   string & =~"(?i)^(NUMBER|TINYINT|SMALLINT|INT|BIGINT|BYTEINT|BYTES|FLOAT|DOUBLE|DECIMAL|NUMERIC|TIMESTAMP|TIME|DATE|DATETIME|INTERVAL|STRING|MEDIUMTEXT|TEXT|CHAR|VARCHAR|BOOLEAN|BINARY|VARBINARY|ARRAY|BLOB|LONGBLOB|MEDIUMBLOB|MAP|STRUCT|UNION|SET|GEOGRAPHY|ENUM|JSON)$"
-#OM_Constraint: string & =~"(?i)^(NULL|NOT_NULL|UNIQUE|PRIMARY_KEY)$"
+#Version:             string & =~"^[0-9]+\\.[0-9]+\\..+$"
+#Id:                  string & =~"^[a-zA-Z0-9:._-]+$"
+#DataProductId:       #Id & =~"^urn:dmb:dp:\(domain):[a-zA-Z0-9_-]+:\(majorVersion)$"
+#ComponentId:         #Id & =~"^urn:dmb:cmp:\(domain):[a-zA-Z0-9_-]+:\(majorVersion):[a-zA-Z0-9_-]+$"
+#ExternalComponentId: #Id & =~"^urn:dmb:cmp:[a-zA-Z0-9_-]+:[a-zA-Z0-9_-]+:[0-9]+:[a-zA-Z0-9_-]+$"
+#ExternalResourceId:  #Id & =~"^urn:dmb:ex:[a-zA-Z0-9_-]+$"
+#URL:                 string & =~"^https?://[a-zA-Z0-9@:%._~#=&/?]*$"
+#OM_DataType:         string & =~"(?i)^(NUMBER|TINYINT|SMALLINT|INT|BIGINT|BYTEINT|BYTES|FLOAT|DOUBLE|DECIMAL|NUMERIC|TIMESTAMP|TIME|DATE|DATETIME|INTERVAL|STRING|MEDIUMTEXT|TEXT|CHAR|VARCHAR|BOOLEAN|BINARY|VARBINARY|ARRAY|BLOB|LONGBLOB|MEDIUMBLOB|MAP|STRUCT|UNION|SET|GEOGRAPHY|ENUM|JSON)$"
+#OM_Constraint:       string & =~"(?i)^(NULL|NOT_NULL|UNIQUE|PRIMARY_KEY)$"
 
 #OM_TableData: {
 	columns: [... string]
@@ -47,6 +49,12 @@ import "strings"
 	if dataType =~ "(?i)^(MAP|STRUCT|UNION)$" {
 		children: [... #OM_Column]
 	}
+}
+
+#SemanticLink: {
+	fieldName:           string
+	referenceOutputPort: #ExternalComponentId
+	refrenceFieldName:   string
 }
 
 #DataContract: {
@@ -91,10 +99,32 @@ import "strings"
 	dataContract:         #DataContract
 	dataSharingAgreement: #DataSharingAgreement
 	tags: [... #OM_Tag]
-	sampleData?:      #OM_TableData | null
-	semanticLinking?: {...} | null
+	sampleData?: #OM_TableData | null
+	semanticLinking: [... #SemanticLink]
 	specific: {...}
 	...
+
+	// check that the sample data columsn are defined in the schema
+	#checkColumns: {
+		if sampleData != null && sampleData != _|_ {
+			_schemaColumns: {
+				for sc in dataContract.schema {
+					"\(sc.name)": {}
+				}
+			}
+			_sampleColumns: {
+				for sc in sampleData.columns {
+					"\(sc)": {}
+				}
+			}
+			for c in sampleData.columns {
+				_schemaColumns[c]
+			}
+			for c in dataContract.schema {
+				_sampleColumns[c.name]
+			}
+		}
+	}
 }
 
 #Workload: {
@@ -111,7 +141,7 @@ import "strings"
 	workloadType?:   string | null
 	connectionType?: string & =~"(?i)^(housekeeping|datapipeline)$" | null
 	tags: [... #OM_Tag]
-	readsFrom: [... string]
+	readsFrom: [... (#ExternalComponentId | #ExternalResourceId)]
 	specific: {...} | null
 	...
 }

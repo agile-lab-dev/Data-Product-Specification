@@ -74,7 +74,7 @@ Constraints:
 * `CreationDate: [Optional[String]]` when this output port has been created.
 * `StartDate: [Optional[String]]` the first business date present in the dataset, leave it empty for events or we can use some standard semantic like: "-7D, -1Y".
 * `ProcessDescription: [Option[String]]` what is the underlying process that contributes to generate the data exposed by this output port.
-* `DataContract: [Yaml]`: In case something is going to change in this section, it represents a breaking change because the producer is breaking the contract, this will require to create a new version of the data product to keep backward compatibility
+* `DataContract: [Yaml]`: In case something is going to change in this section, it represents a breaking change because the producer is breaking the contract, this will require to create a new version of the data product to keep backward compatibility.
   * `Schema: [Array[Yaml]]` when it comes to describe a schema we propose to leverage OpenMetadata specification: Ref https://docs.open-metadata.org/metadata-standard/schemas/entities/table#column. Each column can have a tag array and you can choose between simples LabelTags, ClassificationTags or DescriptiveTags. Here an example of classification Tag https://github.com/open-metadata/OpenMetadata/blob/main/catalog-rest-service/src/main/resources/json/data/tags/piiTags.json.
   * `SLA: [Yaml]` Service Level Agreement, describe the quality of data delivery and the output port in general. It represents the producer's overall promise to the consumers.
     * `IntervalOfChange: [Option[String]]` how often changes in the data are reflected.
@@ -92,7 +92,10 @@ Constraints:
   * `Confidentiality: [Option[String]]` Describe what a consumer should do to keep the information confidential, how to process and store it. Permission to share or report it.
 * `Tags: [Array[Yaml]]` Tag labels at OutputPort level, here we can have security classification for example (please refer to OpenMetadata https://docs.open-metadata.org/metadata-standard/schemas/types/taglabel).
 * `SampleData: [Option[Yaml]]` provides a sample data of your Output Port (please refer to  OpenMetadata specification: https://docs.open-metadata.org/metadata-standard/schemas/entities/table#tabledata).
-* `SemanticLinking: [Option[Yaml]]` here we can express semantic relationships between this output port and other outputports (also coming from other domains and data products). For example we could say that column "customerId" of our SQL Output Port references the column "id" of the SQL Output Port of the "Customer" Data Product.
+* `SemanticLinking: [Array[Yaml]]` here we can express semantic relationships between this output port and other outputports (also coming from other domains and data products). For example we could say that column "customerId" of our SQL Output Port references the column "id" of the SQL Output Port of the "Customer" Data Product. This array can contain multiple references for the same field (e.g. the field custom_id can be joined with external_id of output port A and with refrence_id of output port B).
+  * `FieldName: [String]` name of the output port field that can be joined with a remote output port field.
+  * `ReferenceOutputPort: [String]` unique ID of the output port refrenced by this output port field.
+  * `RefrenceFieldName: [String]` name of the field name of the refrenced output port that is joinable with the current one.
 * `Specific: [Yaml]` this is a custom section where we must put all the information strictly related to a specific technology or dependent from a standard/policy defined in the federated governance.
 
 
