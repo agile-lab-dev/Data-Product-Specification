@@ -1,8 +1,8 @@
 # Data Product Specification
 
 This repository wants to define an open specification to define data products with the following principles in mind:
-- Data Product as an indipendent unit of deployment
-- Technology indipendence
+- Data Product as an independent unit of deployment
+- Technology independence
 - Extensibility
 
 With an open specification it will be possible to create services for automatic deployment and interoperable components to build a Data Mesh platform.
@@ -15,9 +15,9 @@ The Data Product is composed by a general section with Data Product level inform
 * **Output Ports**: representing all the different interfaces of the Data Product to expose the data to consumers
 * **Workloads**: internal jobs/processes to feed the Data Product and to perform housekeeping (GDPR, regulation, audit, data quality, etc)
 * **Storage Areas**: internal data storages where the Data Product is deployed, not exposed to consumers
-* **Observability**: provides transparency to the data conusmer about how the Data Product is currently working. This is not declarative, but exposing runtime data.
+* **Observability**: provides transparency to the data consumer about how the Data Product is currently working. This is not declarative, but exposing runtime data.
 
-Each Data Product component trait (output ports, workloads, observabilities, etc) will have a well defined and fixed structure and a "specific" one to handle technology specific stuff.
+Each Data Product component trait (output ports, workloads, observability, etc) will have a well defined and fixed structure and a "specific" one to handle technology specific stuff.
 The fixed structure must be technology agnostic. The first fields of teh fixed structure are more technical and linked to how the platform will handle them, while the last fields (specific excluded) are to be treated as pure metadata that will simplify the management and consumption.
 
 ### General
@@ -31,7 +31,7 @@ The fixed structure must be technology agnostic. The first fields of teh fixed s
 * `Description: [String]` detailed description about what functional area this Data Product is representing, what purpose has and business related information.
 * `Kind: [String]*` type of the entity. Since this is a Data Product the only allowed value is `dataproduct`.
 * `Domain: [String]*` the identifier of the domain this Data Product is belonging to.
-* `Version: [String]*` this is representing the version of the Data Product. Displayed as `X.Y.Z` where X is the major version, Y is the minor version, and Z is the patch. Major version (X) is also shown in the Data Product ID and those fields (version and ID) must always be aligned with one another. We consider a Data Product as an indipendent unit of deployment, so if a breaking change is needed, we create a brand new version of it by chaning the major version. If we introduce a new feature (or patch) we will not create a new major version, but we can just change Y (new feature) or Z patch, thus not creating a new ID (and hence not creating a new Data Product).
+* `Version: [String]*` this is representing the version of the Data Product. Displayed as `X.Y.Z` where X is the major version, Y is the minor version, and Z is the patch. Major version (X) is also shown in the Data Product ID and those fields (version and ID) must always be aligned with one another. We consider a Data Product as an independent unit of deployment, so if a breaking change is needed, we create a brand new version of it by changing the major version. If we introduce a new feature (or patch) we will not create a new major version, but we can just change Y (new feature) or Z patch, thus not creating a new ID (and hence not creating a new Data Product).
   Constraints:
   * Major version of the Data Product is always the same as the major version of all of its components ,and it is the same version that is shown in both Data Product ID and component IDs.
 * `Environment: [String]*`: logical environment where the Data Product will be deployed.
@@ -45,7 +45,7 @@ The fixed structure must be technology agnostic. The first fields of teh fixed s
 * `Maturity: [Option[String]]` this is an enum to let the consumer understand if it is a tactical solution or not. It is really useful during migration from Data Warehouse or Data Lake. Allowed values are: `[Tactical|Strategic]`.
 * `Billing: [Option[Yaml]]` this is a free form key-value area where is possible to put information useful for resource tagging and billing.
 * `Tags: [Array[Yaml]]` Tag labels at DP level ( please refer to OpenMetadata https://docs.open-metadata.org/metadata-standard/schemas/types/taglabel).
-* `Specific: [Yaml]` this is a custom section where we can put all the information strictly related to a specific execution environment. It can also refer to an additional file. At this level we also embed all the information to provision the general infrastructure (resource groups, networking, etc) needed for a specific Data Product. For example if a company decides to create a ResourceGroup for each data product and have a subscription reference for each domain and environment, it will be specified at this level. Also it is reccommended to put general security here, Azure Policy or IAM policies, VPC/Vnet, Subnet. This will be filled merging data defined at common level with values defined specifically for the selected environment.
+* `Specific: [Yaml]` this is a custom section where we can put all the information strictly related to a specific execution environment. It can also refer to an additional file. At this level we also embed all the information to provision the general infrastructure (resource groups, networking, etc) needed for a specific Data Product. For example if a company decides to create a ResourceGroup for each data product and have a subscription reference for each domain and environment, it will be specified at this level. Also it is recommended to put general security here, Azure Policy or IAM policies, VPC/Vnet, Subnet. This will be filled merging data defined at common level with values defined specifically for the selected environment.
 
 The **unique identifier** of a Data Product is the concatenation of Domain, Name and Version. So we will refer to the `DP_UK` as a URN which ends in the following way: `$DPDomain:$DPName:$DPMajorVersion`.
 
@@ -57,13 +57,13 @@ The **unique identifier** of a Data Product is the concatenation of Domain, Name
   * allowed characters are `[a-zA-Z0-9]` and `[_-]`.
   * the ID is a URN of the form `urn:dmb:cmp:$DPDomain:$DPName:$DPMajorVersion:$OutputPortName`.
 * `Name: [String]*` the name of the Output Port. This name is used also for display purposes, so it can contain all kind of characters. When used inside the Output Port ID all special characters are replaced with standard ones and spaces are replaced with dashes.
-* `FullyQualifiedName: [Option[String]]` human-readable name that describes better the Output Port. It can also contain specific details (if this is a table this field could contain also indications regarding the databse and the schema).
+* `FullyQualifiedName: [Option[String]]` human-readable name that describes better the Output Port. It can also contain specific details (if this is a table this field could contain also indications regarding the database and the schema).
 * `Description: [String]` detailed explanation about the function and the meaning of the output port.
 * `Kind: [String]*` type of the entity. Since this is an Output Port the only allowed value is `outputport`.
-* `Version: [String]*` specific version of the output port. Displayed as `X.Y.Z` where X is the major version of the Data Product, Y is the minor feature and Z is the patch. Major version (X) is also shown in the component ID and those fields( version and ID) are always aligned with one another. Please note that the major version of the component *must always* corresponde to the major version of the Data Product it belongs to.
+* `Version: [String]*` specific version of the output port. Displayed as `X.Y.Z` where X is the major version of the Data Product, Y is the minor feature and Z is the patch. Major version (X) is also shown in the component ID and those fields( version and ID) are always aligned with one another. Please note that the major version of the component *must always* corresponds to the major version of the Data Product it belongs to.
 Constraints:
   * Major version of the Data Product is always the same as the major version of all of its components and it is the same version that is shown in both Data Product ID and component ID.
-* `InfrastructureTemplateId: [String]*` the id of the microservice responsible for provisioning the component. A microservice may be capable of provisioning several components generated from different use case templates. 
+* `InfrastructureTemplateId: [String]*` the id of the microservice responsible for provisioning the component. A microservice may be capable of provisioning several components generated from different use case templates.
 * `UseCaseTemplateId: [Option[String]]*` the id of the template used in the builder to create the component. Could be empty in case the component was not created from a builder template.
 * `DependsOn: [Array[String]]*` A component could depend on other components belonging to the same Data Product, for example a SQL Output port could be dependent on a Raw Output Port because it is just an external table. This is also used to define the provisioning order among components.
 Constraints:
@@ -78,21 +78,21 @@ Constraints:
   * `Schema: [Array[Yaml]]` when it comes to describe a schema we propose to leverage OpenMetadata specification: Ref https://docs.open-metadata.org/metadata-standard/schemas/entities/table#column. Each column can have a tag array and you can choose between simples LabelTags, ClassificationTags or DescriptiveTags. Here an example of classification Tag https://github.com/open-metadata/OpenMetadata/blob/main/catalog-rest-service/src/main/resources/json/data/tags/piiTags.json.
   * `SLA: [Yaml]` Service Level Agreement, describe the quality of data delivery and the output port in general. It represents the producer's overall promise to the consumers.
     * `IntervalOfChange: [Option[String]]` how often changes in the data are reflected.
-    * `Timeliness: [Option[String]]` the skew between the time that a business fact occuts and when it becomes visibile in the data.
+    * `Timeliness: [Option[String]]` the skew between the time that a business fact occurs and when it becomes visible in the data.
     * `UpTime: [Option[String]]` the percentage of port availability.
   * `TermsAndConditions: [Option[String]]` If the data is usable only in specific environments.
   * `Endpoint: [Option[URL]]` this is the API endpoint that self-describe the output port and provide insightful information at runtime about the physical location of the data, the protocol must be used, etc.
-* `DataSharingAgreement: [Yaml]` This part is covering usage, privacy, purpose, limitations and is indipendent by the data contract.
+* `DataSharingAgreement: [Yaml]` This part is covering usage, privacy, purpose, limitations and is independent by the data contract.
   * `Purpose: [Option[String]]` what is the goal of this data set.
   * `Billing: [Option[String]]` how a consumer will be charged back when it consumes this output port.
-  * `Security: [Option[String]]` additional information related to security aspects, like restrictions, maskings, sensibile information and privacy.
+  * `Security: [Option[String]]` additional information related to security aspects, like restrictions, maskings, sensible information and privacy.
   * `IntendedUsage: [Option[String]]` any other information needed by the consumer in order to effectively consume the data, it could be related to technical stuff (e.g. extract no more than one year of data for good performances ) or to business domains (e.g. this data is only useful in the marketing domains).
   * `Limitations: [Option[String]]` If any limitation is present it must be made super clear to the consumers.
   * `LifeCycle: [Option[String]]` Describe how the data will be historicized and how and when it will be deleted.
   * `Confidentiality: [Option[String]]` Describe what a consumer should do to keep the information confidential, how to process and store it. Permission to share or report it.
 * `Tags: [Array[Yaml]]` Tag labels at OutputPort level, here we can have security classification for example (please refer to OpenMetadata https://docs.open-metadata.org/metadata-standard/schemas/types/taglabel).
 * `SampleData: [Option[Yaml]]` provides a sample data of your Output Port (please refer to  OpenMetadata specification: https://docs.open-metadata.org/metadata-standard/schemas/entities/table#tabledata).
-* `SemanticLinking: [Option[Yaml]]` here we can express semantic relationships between this output port and other outputports (also coming from other domains and data products). For example we could say that column "customerId" of our SQL Output Port references the column "id" of the SQL Output Port of the "Customer" Data Product.
+* `SemanticLinking: [Option[Yaml]]` here we can express semantic relationships between this output port and other output ports (also coming from other domains and data products). For example we could say that column "customerId" of our SQL Output Port references the column "id" of the SQL Output Port of the "Customer" Data Product.
 * `Specific: [Yaml]` this is a custom section where we must put all the information strictly related to a specific technology or dependent from a standard/policy defined in the federated governance.
 
 
@@ -104,12 +104,12 @@ Constraints:
   * the ID is a URN of the form `urn:dmb:cmp:$DPDomain:$DPName:$DPMajorVersion:$WorkloadName`.
 * `Name: [String]*` the name of the Workload. This name is used also for display purposes, so it can contain all kind of characters. When used inside the Workload ID all special characters are replaced with standard ones and spaces are replaced with dashes.
 * `FullyQualifiedName: [Optional[String]]` human-readable name that describes better the Workload.
-* `Description: [String]` detailed explaination about the purpose of the workload, what sources is reading, what business logic is applying, etc.
+* `Description: [String]` detailed explanation about the purpose of the workload, what sources is reading, what business logic is applying, etc.
 * `Kind: [String]*` type of the entity. Since this is an Output Port the only allowed value is `workload`.
-* `Version: [String]*` specific version of the workload. Displayed as `X.Y.Z` where X is the major version of the Data Product, Y is the minor feature and Z is the patch. Major version (X) is also shown in the component ID and those fields( version and ID) are always aligned with one another. Please note that the major version of the component *must always* corresponde to the major version of the Data Product it belongs to.
+* `Version: [String]*` specific version of the workload. Displayed as `X.Y.Z` where X is the major version of the Data Product, Y is the minor feature and Z is the patch. Major version (X) is also shown in the component ID and those fields( version and ID) are always aligned with one another. Please note that the major version of the component *must always* corresponds to the major version of the Data Product it belongs to.
 Constraints:
   * Major version of the Data Product is always the same as the major version of all of its components and it is the same version that is shown in both Data Product ID and component ID.
-* `InfrastructureTemplateId: [String]*` the id of the microservice responsible for provisioning the component. A microservice may be capable of provisioning several components generated from different use case templates. 
+* `InfrastructureTemplateId: [String]*` the id of the microservice responsible for provisioning the component. A microservice may be capable of provisioning several components generated from different use case templates.
 * `UseCaseTemplateId: [Option[String]]*` the id of the template used in the builder to create the component. Could be empty in case the component was not created from a builder template.
 * `DependsOn: [Array[String]]*` A component could depend on other components belonging to the same Data Product, for example a SQL Output port could be dependent on a Raw Output Port because it is just an external table. This is also used to define the provisioning order among components.
 Constraints:
@@ -119,7 +119,7 @@ Constraints:
 * `WorkloadType: [Option[String]]` explains what type of workload is: Ingestion ETL, Streaming, Internal Process, etc.
 * `ConnectionType: [Option[String]]` an enum with allowed values: `[HouseKeeping|DataPipeline]`; `Housekeeping` is for all the workloads that are acting on internal data without any external dependency. `DataPipeline` instead is for workloads that are reading from outputport of other DP or external systems.
 * `Tags: [Array[Yaml]]` Tag labels at Workload level ( please refer to OpenMetadata https://docs.open-metadata.org/metadata-standard/schemas/types/taglabel).
-* `ReadsFrom: [Array[String]]` This is filled only for `DataPipeline` workloads and it represents the list of Output Ports or external systems that the workload uses as input. Output Ports are identified with `DP_UK:$OutputPortName`, while external systems will be defined by a URN in the form `urn:dmb:ex:$SystemName`. This filed can be elaborated more in the future and create a more semantic struct.
+* `ReadsFrom: [Array[String]]` This is filled only for `DataPipeline` workloads and it represents the list of Output Ports or external systems that the workload uses as input. Output Ports are identified with `DP_UK:$OutputPortName`, while external systems will be defined by a URN in the form `urn:dmb:ex:$SystemName`. This fields can be elaborated more in the future and create a more semantic struct.
 Constraints:
   * This array will only contain Output Port IDs and/or external systems identifiers.
 * `Specific: [Yaml]` this is a custom section where we can put all the information strictly related to a specific technology or dependent from a standard/policy defined in the federated governance.
@@ -136,7 +136,7 @@ Constraints:
 * `Description: [String]` detailed explanation about the function and the meaning of this storage area,
 * `Kind: [String]*` type of the entity. Since this is an Output Port the only allowed value is `storage`.
 * `Owners: [Array[String]]` It is an array of user/role/group related to LDAP/AD user. This field defines who has all permissions on this specific storage area
-* `InfrastructureTemplateId: [String]*` the id of the microservice responsible for provisioning the component. A microservice may be capable of provisioning several components generated from different use case templates. 
+* `InfrastructureTemplateId: [String]*` the id of the microservice responsible for provisioning the component. A microservice may be capable of provisioning several components generated from different use case templates.
 * `UseCaseTemplateId: [Option[String]]*` the id of the template used in the builder to create the component. Could be empty in case the component was not created from a builder template.
 * `DependsOn: [Array[String]]*` A component could depend on other components belonging to the same Data Product, for example a SQL Output port could be dependent on a Raw Output Port because it is just an external table. This is also used to define the provisioning order among components.
 Constraints:
@@ -177,7 +177,7 @@ In general the version should be used to notify users of the changes between the
 - a change in the patch version means that there are no significant changes, but just bug fixes or small corrections (e.g. an improvement in the field description, a typo that was fixed, an improvement in the validation files)
 
 CUE offers also a [standard way](https://cuelang.org/docs/usecases/datadef/#validating-backwards-compatibility) to check if new versions of a schema are backwards-compatible with older versions.
-It is highly reccommended to check for schema compatibilities when multiple and/or complex changes are introduced.
+It is highly recommended to check for schema compatibilities when multiple and/or complex changes are introduced.
 
 In the following sections we will list all the extensions and modifications of this specification and the impact they have on the overall contract:
 
@@ -207,7 +207,7 @@ Any change of this kind should **always** increase the major version number.
 Discouraged customizations are:
 - change in the name or type of existing fields. This kind of change breaks compatibility with previous versions, and should be performed by keeping in mind that they will impact for sure all the logics based on those fields.
 - moving fields as sub-fields of other sections (e.g. moving the "workload type" field as a sub-field of a new "type" field). This is actually a specific case of the one above, and should be treated accordingly.
-- deletion of existing fields. This is generally somethign that will impact a lot modules that are leveraging the specification, and you must think very carefully before doing deletions. Think that you can always make a field optional, and this choice will impact the specification way less.
+- deletion of existing fields. This is generally something that will impact a lot modules that are leveraging the specification, and you must think very carefully before doing deletions. Think that you can always make a field optional, and this choice will impact the specification way less.
 
 **N.B.: all the changes described above are allowed only if they do not affect reserved fields which are treated in the Forbidden customization.**
 
