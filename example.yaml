@@ -1,6 +1,6 @@
 id: urn:dmb:dp:my_domain:my_data_product:1
 name: my data product
-fullyQualifiedName: My Data Product
+fullyQualifiedName: my_domain.my_data_product
 description: this data product is representing the xxx functional entity
 kind: dataproduct
 domain: my_domain
@@ -20,7 +20,7 @@ specific: {}
 components:
   - id: urn:dmb:cmp:my_domain:my_data_product:1:my_raw_s3_port
     name: my raw s3 port
-    fullyQualifiedName: My Raw S3 Port
+    fullyQualifiedName: my_domain.my_data_product.my_raw_s3_port
     description: s3 raw output port
     kind: outputport
     version: 1.0.1
@@ -37,7 +37,7 @@ components:
       schema: []
       SLA:
         intervalOfChange: 1 hours
-        timeliness: 1 minutes 
+        timeliness: 1 minutes
         upTime: 99.9%
       termsAndConditions: only usable in development environment
       endpoint: https://myurl/development/my_domain/my_data_product/1.0.0/my_raw_s3_port
@@ -45,10 +45,10 @@ components:
       purpose: this output port want to provide a rich set of profitability KPIs related to the customer
       billing: 5$ for each full scan
       security: In order to consume this output port an additional security check with compliance must be done
-      intendedUsage: the dataset is huge so it is reccomended to extract maximum 1 year of data and to use these KPIs in the marketing or sales domain, but not for customer care
+      intendedUsage: the dataset is huge so it is recommended to extract maximum 1 year of data and to use these KPIs in the marketing or sales domain, but not for customer care
       limitations: is not possible to use this data without a compliance check
       lifeCycle: the maximum retention is 10 years, and eviction is happening on the first of january
-      confidentiality: if you want to store this data somewhere else, PII columns must be masked    
+      confidentiality: if you want to store this data somewhere else, PII columns must be masked
     tags:
       - tagFQN: experimental
         source: Tag
@@ -65,7 +65,7 @@ components:
       bucket: ms-datamesh-s3
   - id: urn:dmb:cmp:my_domain:my_data_product:1:my_view_impala_port
     name: my view impala port
-    fullyQualifiedName: My View Impala Port
+    fullyQualifiedName: my_domain.my_data_product.my_view_impala_port
     description: impala view output port
     kind: outputPort
     version: 1.1.0
@@ -86,7 +86,7 @@ components:
           dataType: string
       SLA:
         intervalOfChange: 1 hours
-        timeliness: 1 minutes 
+        timeliness: 1 minutes
         upTime: 99.9%
       termsAndConditions: only usable in development environment
       endpoint: https://myurl/development/my_domain/my_data_product/1.0.0/my_raw_s3_port
@@ -94,10 +94,10 @@ components:
       purpose: this output port want to provide a rich set of profitability KPIs related to the customer
       billing: 5$ for each full scan
       security: In order to consume this output port an additional security check with compliance must be done
-      intendedUsage: the dataset is huge so it is reccomended to extract maximum 1 year of data and to use these KPIs in the marketing or sales domain, but not for customer care
+      intendedUsage: the dataset is huge so it is recommended to extract maximum 1 year of data and to use these KPIs in the marketing or sales domain, but not for customer care
       limitations: is not possible to use this data without a compliance check
       lifeCycle: the maximum retention is 10 years, and eviction is happening on the first of january
-      confidentiality: if you want to store this data somewhere else, PII columns must be masked    
+      confidentiality: if you want to store this data somewhere else, PII columns must be masked
     tags: []
     sampleData:
       columns:
@@ -121,7 +121,7 @@ components:
       format: PARQUET
   - id: urn:dmb:cmp:my_domain:my_data_product:1:my_spark_workload
     name: my spark workload
-    fullyQualifiedName: My Spark workload
+    fullyQualifiedName: my_domain.my_data_product.my_spark_workload
     description: spark batch workload
     kind: workload
     version: 1.1.1
@@ -151,7 +151,7 @@ components:
         cronExpression: 0 0 0,22 ? * * *
   - id: urn:dmb:cmp:my_domain:my_data_product:1:my_observability
     name: my observability
-    fullyQualifiedName: My Observability
+    fullyQualifiedName: my_domain.my_data_product.my_observability
     description: observability for my data product
     kind: observability
     infrastructureTemplateId: microservice-id-4
