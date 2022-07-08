@@ -28,6 +28,7 @@ The fixed structure must be technology agnostic. The first fields of teh fixed s
   * the ID is a URN of the form `urn:dmb:dp:$DPDomain:$DPName:$DPMajorVersion`
 * `Name: [String]*` the name of the Data Product. This name is used also for display purposes, so it can contain all kind of characters. When used inside the Data Product ID all special characters are replaced with standard ones and spaces are replaced with dashes.
 * `FullyQualifiedName: [Option[String]]` human-readable name that describes the Data Product.
+  Following the Open Metadata convention it should be of the form `domain.dataproduct`.
 * `Description: [String]` detailed description about what functional area this Data Product is representing, what purpose has and business related information.
 * `Kind: [String]*` type of the entity. Since this is a Data Product the only allowed value is `dataproduct`.
 * `Domain: [String]*` the identifier of the domain this Data Product is belonging to.
@@ -57,7 +58,8 @@ The **unique identifier** of a Data Product is the concatenation of Domain, Name
   * allowed characters are `[a-zA-Z0-9]` and `[_-]`.
   * the ID is a URN of the form `urn:dmb:cmp:$DPDomain:$DPName:$DPMajorVersion:$OutputPortName`.
 * `Name: [String]*` the name of the Output Port. This name is used also for display purposes, so it can contain all kind of characters. When used inside the Output Port ID all special characters are replaced with standard ones and spaces are replaced with dashes.
-* `FullyQualifiedName: [Option[String]]` human-readable name that describes better the Output Port. It can also contain specific details (if this is a table this field could contain also indications regarding the database and the schema).
+* `FullyQualifiedName: [Option[String]]` human-readable name that describes the Output Port.
+  Following the Open Metadata convention it should be of the form `domain.dataproduct.outputport`.
 * `Description: [String]` detailed explanation about the function and the meaning of the output port.
 * `Kind: [String]*` type of the entity. Since this is an Output Port the only allowed value is `outputport`.
 * `Version: [String]*` specific version of the output port. Displayed as `X.Y.Z` where X is the major version of the Data Product, Y is the minor feature and Z is the patch. Major version (X) is also shown in the component ID and those fields( version and ID) are always aligned with one another. Please note that the major version of the component *must always* corresponds to the major version of the Data Product it belongs to.
@@ -104,6 +106,7 @@ Constraints:
   * the ID is a URN of the form `urn:dmb:cmp:$DPDomain:$DPName:$DPMajorVersion:$WorkloadName`.
 * `Name: [String]*` the name of the Workload. This name is used also for display purposes, so it can contain all kind of characters. When used inside the Workload ID all special characters are replaced with standard ones and spaces are replaced with dashes.
 * `FullyQualifiedName: [Optional[String]]` human-readable name that describes better the Workload.
+  Following the Open Metadata convention it should be of the form `domain.dataproduct.workload`.
 * `Description: [String]` detailed explanation about the purpose of the workload, what sources is reading, what business logic is applying, etc.
 * `Kind: [String]*` type of the entity. Since this is an Output Port the only allowed value is `workload`.
 * `Version: [String]*` specific version of the workload. Displayed as `X.Y.Z` where X is the major version of the Data Product, Y is the minor feature and Z is the patch. Major version (X) is also shown in the component ID and those fields( version and ID) are always aligned with one another. Please note that the major version of the component *must always* corresponds to the major version of the Data Product it belongs to.
@@ -117,7 +120,7 @@ Constraints:
 * `Platform: [Option[String]]` represents the vendor: Azure, GCP, AWS, CDP on AWS, etc. It is a free field but it is useful to understand better the platform where the component will be running.
 * `Technology: [Option[String]]` represents which technology is used to define the workload, like: Spark, Flink, pySpark, etc. The underlying technology is useful to understand better how the workload process data.
 * `WorkloadType: [Option[String]]` explains what type of workload is: Ingestion ETL, Streaming, Internal Process, etc.
-* `ConnectionType: [Option[String]]` an enum with allowed values: `[HouseKeeping|DataPipeline]`; `Housekeeping` is for all the workloads that are acting on internal data without any external dependency. `DataPipeline` instead is for workloads that are reading from outputport of other DP or external systems.
+* `ConnectionType: [Option[String]]` an enum with allowed values: `[HouseKeeping|DataPipeline]`; `Housekeeping` is for all the workloads that are acting on internal data without any external dependency. `DataPipeline` instead is for workloads that are reading from output ports of other DP or external systems.
 * `Tags: [Array[Yaml]]` Tag labels at Workload level ( please refer to OpenMetadata https://docs.open-metadata.org/metadata-standard/schemas/types/taglabel).
 * `ReadsFrom: [Array[String]]` This is filled only for `DataPipeline` workloads and it represents the list of Output Ports or external systems that the workload uses as input. Output Ports are identified with `DP_UK:$OutputPortName`, while external systems will be defined by a URN in the form `urn:dmb:ex:$SystemName`. This fields can be elaborated more in the future and create a more semantic struct.
 Constraints:
@@ -133,6 +136,7 @@ Constraints:
   * the ID is a URN of the form `urn:dmb:cmp:$DPDomain:$DPName:$DPMajorVersion:$StorageAreaName`.
 * `Name: [String]*` the name of the Storage Area. This name is used also for display purposes, so it can contain all kind of characters. When used inside the Storage Area ID all special characters are replaced with standard ones and spaces are replaced with dashes.
 * `FullyQualifiedName: [Optional[String]]` human-readable name that describes better the Storage Area.
+  Following the Open Metadata convention it should be of the form `domain.dataproduct.storage_area`.
 * `Description: [String]` detailed explanation about the function and the meaning of this storage area,
 * `Kind: [String]*` type of the entity. Since this is an Output Port the only allowed value is `storage`.
 * `Owners: [Array[String]]` It is an array of user/role/group related to LDAP/AD user. This field defines who has all permissions on this specific storage area
@@ -156,6 +160,7 @@ Anyway is good to formalize what kind of information should be included and veri
 * `ID: [String]*` the unique identifier of the observability API
 * `Name: [String]*` the name of the observability API
 * `FullyQualifiedName: [String]` human-readable that uniquely identifies an entity
+  Following the Open Metadata convention it should be of the form `domain.dataproduct.observability_api_name`.
 * `Description: [String]` detailed explanation about what this observability is exposing
 * `Endpoint: [URL]` this is the API endpoint that will expose the observability for each OutputPort
 * `Completeness: [Yaml]` degree of availability of all the necessary information along the entire history
