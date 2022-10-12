@@ -45,7 +45,7 @@ components:
       purpose: this output port want to provide a rich set of profitability KPIs related to the customer
       billing: 5$ for each full scan
       security: In order to consume this output port an additional security check with compliance must be done
-      intendedUsage: the dataset is huge so it is reccomended to extract maximum 1 year of data and to use these KPIs in the marketing or sales domain, but not for customer care
+      intendedUsage: the dataset is huge so it is recommended to extract maximum 1 year of data and to use these KPIs in the marketing or sales domain, but not for customer care
       limitations: is not possible to use this data without a compliance check
       lifeCycle: the maximum retention is 10 years, and eviction is happening on the first of january
       confidentiality: if you want to store this data somewhere else, PII columns must be masked    
@@ -94,7 +94,7 @@ components:
       purpose: this output port want to provide a rich set of profitability KPIs related to the customer
       billing: 5$ for each full scan
       security: In order to consume this output port an additional security check with compliance must be done
-      intendedUsage: the dataset is huge so it is reccomended to extract maximum 1 year of data and to use these KPIs in the marketing or sales domain, but not for customer care
+      intendedUsage: the dataset is huge so it is recommended to extract maximum 1 year of data and to use these KPIs in the marketing or sales domain, but not for customer care
       limitations: is not possible to use this data without a compliance check
       lifeCycle: the maximum retention is 10 years, and eviction is happening on the first of january
       confidentiality: if you want to store this data somewhere else, PII columns must be masked    
