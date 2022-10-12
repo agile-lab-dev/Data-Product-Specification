@@ -59,6 +59,8 @@ import "strings"
 	}
 	termsAndConditions?: string | null
 	endpoint?:           #URL | null
+	biTempBusinessTs?:   string | null
+  biTempWriteTs?:			 string | null
 	...
 }
 

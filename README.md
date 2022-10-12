@@ -82,6 +82,8 @@ Constraints:
     * `UpTime: [Option[String]]` the percentage of port availability.
   * `TermsAndConditions: [Option[String]]` If the data is usable only in specific environments.
   * `Endpoint: [Option[URL]]` this is the API endpoint that self-describe the output port and provide insightful information at runtime about the physical location of the data, the protocol must be used, etc.
+  * `biTempBusinessTs: [Option[String]]` name of the field representing the business timestamp, as per the "bi-temporality" definition; it should match with a field in the related `Schema`
+  * `biTempWriteTs: [Option[String]]` name of the field representing the technical (write) timestamp, as per the "bi-temporality" definition; it should match with a field in the related `Schema`
 * `DataSharingAgreement: [Yaml]` This part is covering usage, privacy, purpose, limitations and is independent by the data contract.
   * `Purpose: [Option[String]]` what is the goal of this data set.
   * `Billing: [Option[String]]` how a consumer will be charged back when it consumes this output port.
