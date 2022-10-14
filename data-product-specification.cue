@@ -13,163 +13,165 @@ import "strings"
 #OM_Constraint: string & =~"(?i)^(NULL|NOT_NULL|UNIQUE|PRIMARY_KEY)$"
 
 #OM_TableData: {
-	columns: [... string]
-	rows: [... [...]]
+  columns: [... string]
+  rows: [... [...]]
 }
 
 #OM_Tag: {
-	tagFQN:       string
-	description?: string | null
-	source:       string & =~"(?i)^(Tag|Glossary)$"
-	labelType:    string & =~"(?i)^(Manual|Propagated|Automated|Derived)$"
-	state:        string & =~"(?i)^(Suggested|Confirmed)$"
-	href?:        string | null
+  tagFQN:       string
+  description?: string | null
+  source:       string & =~"(?i)^(Tag|Glossary)$"
+  labelType:    string & =~"(?i)^(Manual|Propagated|Automated|Derived)$"
+  state:        string & =~"(?i)^(Suggested|Confirmed)$"
+  href?:        string | null
 }
 
 #OM_Column: {
-	name:     string
-	dataType: #OM_DataType
-	if dataType =~ "(?i)^(ARRAY)$" {
-		arrayDataType: #OM_DataType
-	}
-	if dataType =~ "(?i)^(CHAR|VARCHAR|BINARY|VARBINARY)$" {
-		dataLength: number
-	}
-	dataTypeDisplay?:    string | null
-	description?:        string | null
-	fullyQualifiedName?: string | null
-	tags?: [... #OM_Tag]
-	constraint?:      #OM_Constraint | null
-	ordinalPosition?: number | null
-	if dataType =~ "(?i)^(JSON)$" {
-		jsonSchema: string
-	}
-	if dataType =~ "(?i)^(MAP|STRUCT|UNION)$" {
-		children: [... #OM_Column]
-	}
+  name:     string
+  dataType: #OM_DataType
+  if dataType =~ "(?i)^(ARRAY)$" {
+    arrayDataType: #OM_DataType
+  }
+  if dataType =~ "(?i)^(CHAR|VARCHAR|BINARY|VARBINARY)$" {
+    dataLength: number
+  }
+  dataTypeDisplay?:    string | null
+  description?:        string | null
+  fullyQualifiedName?: string | null
+  tags?: [... #OM_Tag]
+  constraint?:      #OM_Constraint | null
+  ordinalPosition?: number | null
+  if dataType =~ "(?i)^(JSON)$" {
+    jsonSchema: string
+  }
+  if dataType =~ "(?i)^(MAP|STRUCT|UNION)$" {
+    children: [... #OM_Column]
+  }
 }
 
 #DataContract: {
-	schema: [... #OM_Column]
-	SLA: {
-		intervalOfChange?: string | null
-		timeliness?:       string | null
-		upTime?:           string | null
-		...
-	}
-	termsAndConditions?: string | null
-	endpoint?:           #URL | null
-	...
+  schema: [... #OM_Column]
+  SLA: {
+    intervalOfChange?: string | null
+    timeliness?:       string | null
+    upTime?:           string | null
+    ...
+  }
+  termsAndConditions?: string | null
+  endpoint?:           #URL | null
+  biTempBusinessTs?:   string | null
+  biTempWriteTs?:      string | null
+  ...
 }
 
 #DataSharingAgreement: {
-	purpose?:         string | null
-	billing?:         string | null
-	security?:        string | null
-	intendedUsage?:   string | null
-	limitations?:     string | null
-	lifeCycle?:       string | null
-	confidentiality?: string | null
-	...
+  purpose?:         string | null
+  billing?:         string | null
+  security?:        string | null
+  intendedUsage?:   string | null
+  limitations?:     string | null
+  lifeCycle?:       string | null
+  confidentiality?: string | null
+  ...
 }
 
 #OutputPort: {
-	id:                       #ComponentId
-	name:                     string
-	fullyQualifiedName?:      string | null
-	description:              string
-	version:                  #Version & =~"^\(majorVersion)+\\..+$"
-	infrastructureTemplateId: string
-	useCaseTemplateId?:       string | null
-	dependsOn: [...#ComponentId]
-	platform?:            string | null
-	technology?:          string | null
-	outputPortType:       string
-	creationDate?:        string | null
-	startDate?:           string | null
-	processDescription?:  string | null
-	dataContract:         #DataContract
-	dataSharingAgreement: #DataSharingAgreement
-	tags: [... #OM_Tag]
-	sampleData?:      #OM_TableData | null
-	semanticLinking?: {...} | null
-	specific: {...}
-	...
+  id:                       #ComponentId
+  name:                     string
+  fullyQualifiedName?:      string | null
+  description:              string
+  version:                  #Version & =~"^\(majorVersion)+\\..+$"
+  infrastructureTemplateId: string
+  useCaseTemplateId?:       string | null
+  dependsOn: [...#ComponentId]
+  platform?:            string | null
+  technology?:          string | null
+  outputPortType:       string
+  creationDate?:        string | null
+  startDate?:           string | null
+  processDescription?:  string | null
+  dataContract:         #DataContract
+  dataSharingAgreement: #DataSharingAgreement
+  tags: [... #OM_Tag]
+  sampleData?:      #OM_TableData | null
+  semanticLinking?: {...} | null
+  specific: {...}
+  ...
 }
 
 #Workload: {
-	id:                       #ComponentId
-	name:                     string
-	fullyQualifiedName?:      string | null
-	description:              string
-	version:                  #Version & =~"^\(majorVersion)+\\..+$"
-	infrastructureTemplateId: string
-	useCaseTemplateId?:       string | null
-	dependsOn: [...#ComponentId]
-	platform?:       string | null
-	technology?:     string | null
-	workloadType?:   string | null
-	connectionType?: string & =~"(?i)^(housekeeping|datapipeline)$" | null
-	tags: [... #OM_Tag]
-	readsFrom: [... string]
-	specific: {...} | null
-	...
+  id:                       #ComponentId
+  name:                     string
+  fullyQualifiedName?:      string | null
+  description:              string
+  version:                  #Version & =~"^\(majorVersion)+\\..+$"
+  infrastructureTemplateId: string
+  useCaseTemplateId?:       string | null
+  dependsOn: [...#ComponentId]
+  platform?:       string | null
+  technology?:     string | null
+  workloadType?:   string | null
+  connectionType?: string & =~"(?i)^(housekeeping|datapipeline)$" | null
+  tags: [... #OM_Tag]
+  readsFrom: [... string]
+  specific: {...} | null
+  ...
 }
 
 #Storage: {
-	id:                  #ComponentId
-	name:                string
-	fullyQualifiedName?: string | null
-	description:         string
-	version:             #Version & =~"^\(majorVersion)+\\..+$"
-	owners: [...string]
-	infrastructureTemplateId: string
-	useCaseTemplateId?:       string | null
-	dependsOn: [...#ComponentId]
-	platform?:    string | null
-	technology?:  string | null
-	storageType?: string | null
-	tags: [... #OM_Tag]
-	specific: {...} | null
-	...
+  id:                  #ComponentId
+  name:                string
+  fullyQualifiedName?: string | null
+  description:         string
+  version:             #Version & =~"^\(majorVersion)+\\..+$"
+  owners: [...string]
+  infrastructureTemplateId: string
+  useCaseTemplateId?:       string | null
+  dependsOn: [...#ComponentId]
+  platform?:    string | null
+  technology?:  string | null
+  storageType?: string | null
+  tags: [... #OM_Tag]
+  specific: {...} | null
+  ...
 }
 
 #Observability: {
-	id:                       #ComponentId
-	name:                     string
-	fullyQualifiedName:       string
-	description:              string
-	version:                  #Version & =~"^\(majorVersion)+\\..+$"
-	infrastructureTemplateId: string
-	useCaseTemplateId?:       string | null
-	dependsOn: [...#ComponentId]
-	endpoint:      #URL
-	completeness:  {...} | null
-	dataProfiling: {...} | null
-	freshness:     {...} | null
-	availability:  {...} | null
-	dataQuality:   {...} | null
-	specific:      {...} | null
-	...
+  id:                       #ComponentId
+  name:                     string
+  fullyQualifiedName:       string
+  description:              string
+  version:                  #Version & =~"^\(majorVersion)+\\..+$"
+  infrastructureTemplateId: string
+  useCaseTemplateId?:       string | null
+  dependsOn: [...#ComponentId]
+  endpoint:      #URL
+  completeness:  {...} | null
+  dataProfiling: {...} | null
+  freshness:     {...} | null
+  availability:  {...} | null
+  dataQuality:   {...} | null
+  specific:      {...} | null
+  ...
 }
 
 #Component: {
-	kind: string & =~"(?i)^(outputport|workload|storage|observability)$"
-	if kind != _|_ {
-		if kind =~ "(?i)^(outputport)$" {
-			#OutputPort
-		}
-		if kind =~ "(?i)^(workload)$" {
-			#Workload
-		}
-		if kind =~ "(?i)^(storage)$" {
-			#Storage
-		}
-		if kind =~ "(?i)^(observability)$" {
-			#Observability
-		}
-	}
-	...
+  kind: string & =~"(?i)^(outputport|workload|storage|observability)$"
+  if kind != _|_ {
+    if kind =~ "(?i)^(outputport)$" {
+      #OutputPort
+    }
+    if kind =~ "(?i)^(workload)$" {
+      #Workload
+    }
+    if kind =~ "(?i)^(storage)$" {
+      #Storage
+    }
+    if kind =~ "(?i)^(observability)$" {
+      #Observability
+    }
+  }
+  ...
 }
 
 id:                  #DataProductId
