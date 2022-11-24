@@ -107,7 +107,7 @@ Constraints:
 * `Name: [String]*` the name of the Workload. This name is used also for display purposes, so it can contain all kind of characters. When used inside the Workload ID all special characters are replaced with standard ones and spaces are replaced with dashes.
 * `FullyQualifiedName: [Optional[String]]` human-readable name that describes better the Workload.
 * `Description: [String]` detailed explanation about the purpose of the workload, what sources it's reading, what business logic is applying, etc.
-* `Kind: [String]*` type of the entity. Since this is an Output Port the only allowed value is `workload`.
+* `Kind: [String]*` type of the entity. Since this is a Workload the only allowed value is `workload`.
 * `Version: [String]*` specific version of the workload. Displayed as `X.Y.Z` where X is the major version of the Data Product, Y is the minor feature and Z is the patch. Major version (X) is also shown in the component ID and those fields( version and ID) are always aligned with one another. Please note that the major version of the component *must always* correspond to the major version of the Data Product it belongs to.
 Constraints:
   * Major version of the Data Product is always the same as the major version of all of its components, and it is the same version that is shown in both Data Product ID and component ID.
@@ -136,7 +136,7 @@ Constraints:
 * `Name: [String]*` the name of the Storage Area. This name is used also for display purposes, so it can contain all kind of characters. When used inside the Storage Area ID all special characters are replaced with standard ones and spaces are replaced with dashes.
 * `FullyQualifiedName: [Optional[String]]` human-readable name that describes better the Storage Area.
 * `Description: [String]` detailed explanation about the function and the meaning of this storage area,
-* `Kind: [String]*` type of the entity. Since this is an Output Port the only allowed value is `storage`.
+* `Kind: [String]*` type of the entity. Since this is a Storage Area the only allowed value is `storage`.
 * `Owners: [Array[String]]` It is an array of user/role/group related to LDAP/AD user. This field defines who has all permissions on this specific storage area
 * `InfrastructureTemplateId: [String]*` the id of the microservice responsible for provisioning the component. A microservice may be capable of provisioning several components generated from different use case templates. 
 * `UseCaseTemplateId: [Option[String]]*` the id of the template used in the builder to create the component. Could be empty in case the component was not created from a builder template.
