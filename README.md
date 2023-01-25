@@ -73,7 +73,7 @@ Constraints:
 * `OutputPortType: [String]` the kind of output port: Files, SQL, Events, etc. This should be extensible with other values, like GraphQL or others.
 * `CreationDate: [Optional[String]]` when this output port has been created.
 * `StartDate: [Optional[String]]` the first business date present in the dataset, leave it empty for events, or we can use some standard semantic like: "-7D, -1Y".
-* `RetentionTime: [Optional[String]]` for how long will be data in the Output Port available
+* `RetentionTime: [Optional[String]]` historical depth of data available in the Output Port
 * `ProcessDescription: [Option[String]]` what is the underlying process that contributes to generate the data exposed by this output port.
 * `DataContract: [Yaml]`: In case something is going to change in this section, it represents a breaking change because the producer is breaking the contract, this will require to create a new version of the data product to keep backward compatibility
   * `Schema: [Array[Yaml]]` when it comes to describe a schema we propose to leverage OpenMetadata specification: Ref https://docs.open-metadata.org/metadata-standard/schemas/entities/table#column. Each column can have a tag array, and you can choose between simples LabelTags, ClassificationTags or DescriptiveTags. Here an example of classification Tag https://github.com/open-metadata/OpenMetadata/blob/main/catalog-rest-service/src/main/resources/json/data/tags/piiTags.json.
