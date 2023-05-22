@@ -89,6 +89,7 @@ import "strings"
   outputPortType:       string
   creationDate?:        string | null
   startDate?:           string | null
+  retentionTime?:       string | null
   processDescription?:  string | null
   dataContract:         #DataContract
   dataSharingAgreement: #DataSharingAgreement
