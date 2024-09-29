@@ -45,6 +45,18 @@ The fixed structure must be technology-agnostic. The first fields of teh fixed s
 * `Maturity: [Option[String]]` this is an enum to let the consumer understand if it is a tactical solution or not. It is really useful during migration from Data Warehouse or Data Lake. Allowed values are: `[Tactical|Strategic]`.
 * `Billing: [Option[Yaml]]` this is a free form key-value area where is possible to put information useful for resource tagging and billing.
 * `Tags: [Array[Yaml]]` Tag labels at DP level ( please refer to [OpenMetadata documentation](https://docs.open-metadata.org/v1.0.0/main-concepts/metadata-standard/schemas/type/taglabel)).
+* `BusinessConcepts: [Array[Yaml]]` Link with Business Concepts coming from the Business Ontology/Glossary at DP level ( please refer to [OpenMetadata documentation](https://docs.open-metadata.org/v1.0.0/main-concepts/metadata-standard/schemas/type/taglabel)). Source field must be "Glossary" and the href must link to the Uri of the external glossary or ontology 
+* `SecurityInfo: [Yaml]` Security attributes provide guidance to understand who can access this Data Product and which authorizations are needed
+  * `Confidentiality: [Option[String]]`
+  * `Visibility: [Option[String]]`
+  * `GDPR: [Option[String]]`
+* `BusinessInfo: [Yaml]` 
+  * `ValueProposition: [Option[String]]`: Describe the valu eproposition of the data product from a business standpoint
+  * `StakeholderRoles: Array[String]`: List of stakeholders involved, interested and supporting this data product
+  * `PricingType: [Option[String]]`: It could be Subscription or Pay as You Consume
+  * `PricingInfo: [Yaml]`: Free structure field to describe the pricing structure of the data product
+  * `StrategicInitiatives: Array[String]` Provides the linking between the Data Product and the strategic initiatives of the company, for example is possible to link Company OKR
+* `TargetConsumption: [Array[String]]` Define which are the ideal consumption cases for this data product. It could be analytics, reporting, online application, etc.
 * `Specific: [Yaml]` this is a custom section where we can put all the information strictly related to a specific execution environment. It can also refer to an additional file. At this level we also embed all the information to provision the general infrastructure (resource groups, networking, etc.) needed for a specific Data Product. For example if a company decides to create a ResourceGroup for each data product and have a subscription reference for each domain and environment, it will be specified at this level. Also, it is recommended to put general security here, Azure Policy or IAM policies, VPC/Vnet, Subnet. This will be filled merging data defined at common level with values defined specifically for the selected environment.
 
 The **unique identifier** of a Data Product is the concatenation of Domain, Name and Version. So we will refer to the `DP_UK` as a URN which ends in the following way: `$DPDomain:$DPName:$DPMajorVersion`.

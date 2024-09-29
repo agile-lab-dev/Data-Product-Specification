@@ -39,6 +39,7 @@ import "strings"
   description?:        string | null
   fullyQualifiedName?: string | null
   tags?: [... #OM_Tag]
+  businessTerms?: [... #OM_Tag]
   constraint?:      #OM_Constraint | null
   ordinalPosition?: number | null
   if dataType =~ "(?i)^(JSON)$" {
@@ -193,6 +194,22 @@ informationSLA?:             string | null
 status?:                     string & =~"(?i)^(draft|published|retired)$" | null
 maturity?:                   string & =~"(?i)^(tactical|strategic)$" | null
 billing?:                    {...} | null
+businessInfo: {
+    valueProposition: string | null
+    strategicInitiatives: [... string] | null
+    stakeholderRoles: [... string] | null
+    pricingType: string & =~"(?i)^(PayPerUse|Subscription)$" | null
+    pricingInfo: {...} | null
+    ...
+}
+securityInfo: {
+    confidentiality: string & =~"(?i)^(Public|Internal|Confidential|Restricted|Secret)$"| null
+    visibility: string & =~"(?i)^(Global|Department)$" | null
+    GDPR: string & =~"(?i)^(Yes|No)$" | null
+    ...
+}
+targetConsumption: [... string] | null
 tags: [... #OM_Tag]
+businessConcepts: [... #OM_Tag]
 specific: {...}
 components: [#Component, ...#Component]

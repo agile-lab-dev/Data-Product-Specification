@@ -17,7 +17,26 @@ informationSLA: 2WD
 status: DRAFT
 maturity: Strategic
 billing: {}
+businessInfo:
+  valueProposition: Unlock some capability for the organization
+  okr: increase the margin
+  pricingType: Subscription
+  stakeholderRoles:
+    - CMO
+securityInfo:
+  visibility: Department
+  confidentiality: Confidential
+  gdpr: Yes
+targetConsumption:
+  - Analytics
+  - Reporting
+  - OnlineApplication
 tags: []
+businessConcepts:
+  - tagFQN: Margin
+    source: Glossary
+    labelType: Manual
+    state: Confirmed
 specific: {}
 components:
   - id: urn:dmb:cmp:my_domain:my_data_product:1:my_raw_s3_port
@@ -127,6 +146,11 @@ components:
           tags:
             - tagFQN: PII
               source: Tag
+              labelType: Manual
+              state: Confirmed
+          businessTerms:
+            - tagFQN: BusinessAddress
+              source: Glossary
               labelType: Manual
               state: Confirmed
         - name: first_hire_date
