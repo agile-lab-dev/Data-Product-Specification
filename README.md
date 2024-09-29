@@ -47,9 +47,9 @@ The fixed structure must be technology-agnostic. The first fields of teh fixed s
 * `Tags: [Array[Yaml]]` Tag labels at DP level ( please refer to [OpenMetadata documentation](https://docs.open-metadata.org/v1.0.0/main-concepts/metadata-standard/schemas/type/taglabel)).
 * `BusinessConcepts: [Array[Yaml]]` Link with Business Concepts coming from the Business Ontology/Glossary at DP level ( please refer to [OpenMetadata documentation](https://docs.open-metadata.org/v1.0.0/main-concepts/metadata-standard/schemas/type/taglabel)). Source field must be "Glossary" and the href must link to the Uri of the external glossary or ontology 
 * `SecurityInfo: [Yaml]` Security attributes provide guidance to understand who can access this Data Product and which authorizations are needed
-  * `Confidentiality: [Option[String]]`
-  * `Visibility: [Option[String]]`
-  * `GDPR: [Option[String]]`
+  * `Confidentiality: [Option[String]]` This field indicates the level of confidentiality assigned to the data product. It defines how sensitive the data is and determines the access controls and protections that need to be in place. Common examples might include "Public," "Internal," "Confidential," or "Secret."
+  * `Visibility: [Option[String]]` This field defines the scope of visibility for the data product. It dictates which users, teams, or systems can view or access the data. For example, it could specify whether the data is visible to only specific internal departments
+  * `GDPR: [Option[String]]` This field indicates whether the data product is subject to the General Data Protection Regulation (GDPR), and if so, what specific measures or classifications apply. Yes or No
 * `BusinessInfo: [Yaml]` 
   * `ValueProposition: [Option[String]]`: Describe the valu eproposition of the data product from a business standpoint
   * `StakeholderRoles: Array[String]`: List of stakeholders involved, interested and supporting this data product
