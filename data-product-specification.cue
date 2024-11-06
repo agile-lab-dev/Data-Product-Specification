@@ -195,18 +195,23 @@ status?:                     string & =~"(?i)^(draft|published|retired)$" | null
 maturity?:                   string & =~"(?i)^(tactical|strategic)$" | null
 billing?:                    {...} | null
 businessInfo: {
-    valueProposition: string | null
-    strategicInitiatives: [... string] | null
-    stakeholderRoles: [... string] | null
-    pricingType: string & =~"(?i)^(PayPerUse|Subscription)$" | null
-    pricingInfo: {...} | null
-    ...
+  valueProposition: string | null
+  valueGeneration?:            string & =~"(?i)^(Foundation|RevenueGeneration|OperationMonitoring)$" | null
+  strategicInitiatives: [... string] | null
+  stakeholderRoles: [... string] | null
+  pricingType: string & =~"(?i)^(PayPerUse|Subscription)$" | null
+  pricingInfo: {...} | null
+  ...
 }
 securityInfo: {
-    confidentiality: string & =~"(?i)^(Public|Internal|Confidential|Restricted|Secret)$"| null
-    visibility: string & =~"(?i)^(Global|Department)$" | null
-    GDPR: string & =~"(?i)^(Yes|No)$" | null
-    ...
+  confidentiality: string & =~"(?i)^(Public|Internal|Confidential|Restricted|Secret)$"| null
+  visibility: string & =~"(?i)^(Global|Department)$" | null
+  GDPR: string & =~"(?i)^(Yes|No)$" | null
+  ...
+}
+contacts: {
+  ownerContact: string
+  suportContact: string
 }
 targetConsumption: [... string] | null
 tags: [... #OM_Tag]

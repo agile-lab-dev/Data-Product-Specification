@@ -52,6 +52,7 @@ The fixed structure must be technology-agnostic. The first fields of teh fixed s
   * `GDPR: [Option[String]]` This field indicates whether the data product is subject to the General Data Protection Regulation (GDPR), and if so, what specific measures or classifications apply. Yes or No
 * `BusinessInfo: [Yaml]` 
   * `ValueProposition: [Option[String]]`: Describe the valu eproposition of the data product from a business standpoint
+  * `ValueGeneration: [Option[String]]`: Define what kind of value this DP will generate. It could be a Foundation DP ( tipically a source aligned one), otherwise can be "Operation Monitoring" collecting information about the company processes and providing decision support, then "Revenue Generation" for those DP that can be directly monetized.
   * `StakeholderRoles: Array[String]`: List of stakeholders involved, interested and supporting this data product
   * `PricingType: [Option[String]]`: It could be Subscription or Pay as You Consume
   * `PricingInfo: [Yaml]`: Free structure field to describe the pricing structure of the data product

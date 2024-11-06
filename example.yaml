@@ -19,6 +19,7 @@ maturity: Strategic
 billing: {}
 businessInfo:
   valueProposition: Unlock some capability for the organization
+  valueGeneration: OperationMonitoring
   okr: increase the margin
   pricingType: Subscription
   stakeholderRoles:
@@ -27,6 +28,9 @@ securityInfo:
   visibility: Department
   confidentiality: Confidential
   gdpr: Yes
+contacts:
+  ownerContact: paolo.platter@agilelab.it
+  suportContact: support.finance@agilelab.it
 targetConsumption:
   - Analytics
   - Reporting
