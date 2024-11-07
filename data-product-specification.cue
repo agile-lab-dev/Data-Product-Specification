@@ -58,14 +58,13 @@ import "strings"
     upTime?:           string | null
     ...
   }
-  termsAndConditions?: string | null
   endpoint?:           #URL | null
-  biTempBusinessTs?:   string | null
-  biTempWriteTs?:      string | null
+  dataSharingAgreement: #DataSharingAgreement
   ...
 }
 
 #DataSharingAgreement: {
+  termsAndConditions?: string | null
   purpose?:         string | null
   billing?:         string | null
   security?:        string | null
@@ -93,9 +92,11 @@ import "strings"
   retentionTime?:       string | null
   processDescription?:  string | null
   dataContract:         #DataContract
-  dataSharingAgreement: #DataSharingAgreement
+  biTempBusinessTs?:   string | null
+  biTempWriteTs?:      string | null
   tags: [... #OM_Tag]
   sampleData?:      #OM_TableData | null
+  sampleQuery?:      string | null
   semanticLinking?: {...} | null
   specific: {...}
   ...
@@ -190,7 +191,12 @@ dataProductOwnerDisplayName: string
 devGroup:                    string
 ownerGroup:                  string
 email?:                      string | null
-informationSLA?:             string | null
+supportSLA: {
+  supportHours:             string | null
+  responseTime:             string | null
+  resolutionTime:           string | null
+  informationTime:          string | null
+}
 status?:                     string & =~"(?i)^(draft|published|retired)$" | null
 maturity?:                   string & =~"(?i)^(tactical|strategic)$" | null
 billing?:                    {...} | null
