@@ -39,6 +39,7 @@ import "strings"
   description?:        string | null
   fullyQualifiedName?: string | null
   tags?: [... #OM_Tag]
+  businessTerms?: [... #OM_Tag]
   constraint?:      #OM_Constraint | null
   ordinalPosition?: number | null
   if dataType =~ "(?i)^(JSON)$" {
@@ -57,14 +58,13 @@ import "strings"
     upTime?:           string | null
     ...
   }
-  termsAndConditions?: string | null
   endpoint?:           #URL | null
-  biTempBusinessTs?:   string | null
-  biTempWriteTs?:      string | null
+  dataSharingAgreement: #DataSharingAgreement
   ...
 }
 
 #DataSharingAgreement: {
+  termsAndConditions?: string | null
   purpose?:         string | null
   billing?:         string | null
   security?:        string | null
@@ -92,9 +92,11 @@ import "strings"
   retentionTime?:       string | null
   processDescription?:  string | null
   dataContract:         #DataContract
-  dataSharingAgreement: #DataSharingAgreement
+  biTempBusinessTs?:   string | null
+  biTempWriteTs?:      string | null
   tags: [... #OM_Tag]
   sampleData?:      #OM_TableData | null
+  sampleQuery?:      string | null
   semanticLinking?: {...} | null
   specific: {...}
   ...
@@ -189,10 +191,36 @@ dataProductOwnerDisplayName: string
 devGroup:                    string
 ownerGroup:                  string
 email?:                      string | null
-informationSLA?:             string | null
+supportSLA: {
+  supportHours:             string | null
+  responseTime:             string | null
+  resolutionTime:           string | null
+  informationTime:          string | null
+}
 status?:                     string & =~"(?i)^(draft|published|retired)$" | null
 maturity?:                   string & =~"(?i)^(tactical|strategic)$" | null
 billing?:                    {...} | null
+businessInfo: {
+  valueProposition: string | null
+  valueGeneration?:            string & =~"(?i)^(Foundation|RevenueGeneration|OperationMonitoring)$" | null
+  strategicInitiatives: [... string] | null
+  stakeholderRoles: [... string] | null
+  pricingType: string & =~"(?i)^(PayPerUse|Subscription)$" | null
+  pricingInfo: {...} | null
+  ...
+}
+securityInfo: {
+  confidentiality: string & =~"(?i)^(Public|Internal|Confidential|Restricted|Secret)$"| null
+  visibility: string & =~"(?i)^(Global|Department)$" | null
+  GDPR: string & =~"(?i)^(Yes|No)$" | null
+  ...
+}
+contacts: {
+  ownerContact: string
+  suportContact: string
+}
+targetConsumption: [... string] | null
 tags: [... #OM_Tag]
+businessConcepts: [... #OM_Tag]
 specific: {...}
 components: [#Component, ...#Component]

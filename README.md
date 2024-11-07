@@ -40,11 +40,28 @@ The fixed structure must be technology-agnostic. The first fields of teh fixed s
 * `Email: [Option[String]]` point of contact between consumers and maintainers of the Data Product. It could be the owner or a distribution list, but must be reliable and responsive.
 * `OwnerGroup [String]`: LDAP user/group that is owning the data product.
 * `DevGroup [String]`: LDAP user/group that is in charge to develop and maintain the data product.
-* `InformationSLA: [Option[String]]` describes what SLA the Data Product team is providing to answer additional information requests about the Data Product itself.
+* `SupportSLA: [Option[String]]` describes what SLA the Data Product team is providing when some support is needed.
+  * `SupportHours: [Option[String]]` define when the suport is available. Ex During working days from 9 to 18
+  * `ResponseTime: [Option[String]]` define the amount of time needed to take care of an incoming feature
+  * `ResolutionTime: [Option[String]]` define the amount of time needed to fix the date
+  * `InformationTime: [Option[String]]` define the amount of time needed to answer clarification questions.
 * `Status: [Option[String]]` this is an enum representing the status of this version of the Data Product. Allowed values are: `[Draft|Published|Retired]`. This is a metadata that communicates the overall status of the Data Product but is not reflected to the actual deployment status.
 * `Maturity: [Option[String]]` this is an enum to let the consumer understand if it is a tactical solution or not. It is really useful during migration from Data Warehouse or Data Lake. Allowed values are: `[Tactical|Strategic]`.
 * `Billing: [Option[Yaml]]` this is a free form key-value area where is possible to put information useful for resource tagging and billing.
 * `Tags: [Array[Yaml]]` Tag labels at DP level ( please refer to [OpenMetadata documentation](https://docs.open-metadata.org/v1.0.0/main-concepts/metadata-standard/schemas/type/taglabel)).
+* `BusinessConcepts: [Array[Yaml]]` Link with Business Concepts coming from the Business Ontology/Glossary at DP level ( please refer to [OpenMetadata documentation](https://docs.open-metadata.org/v1.0.0/main-concepts/metadata-standard/schemas/type/taglabel)). Source field must be "Glossary" and the href must link to the Uri of the external glossary or ontology 
+* `SecurityInfo: [Yaml]` Security attributes provide guidance to understand who can access this Data Product and which authorizations are needed
+  * `Confidentiality: [Option[String]]` This field indicates the level of confidentiality assigned to the data product. It defines how sensitive the data is and determines the access controls and protections that need to be in place. Common examples might include "Public," "Internal," "Confidential," or "Secret."
+  * `Visibility: [Option[String]]` This field defines the scope of visibility for the data product. It dictates which users, teams, or systems can view or access the data. For example, it could specify whether the data is visible to only specific internal departments
+  * `GDPR: [Option[String]]` This field indicates whether the data product is subject to the General Data Protection Regulation (GDPR), and if so, what specific measures or classifications apply. Yes or No
+* `BusinessInfo: [Yaml]` 
+  * `ValueProposition: [Option[String]]`: Describe the valu eproposition of the data product from a business standpoint
+  * `ValueGeneration: [Option[String]]`: Define what kind of value this DP will generate. It could be a Foundation DP ( tipically a source aligned one), otherwise can be "Operation Monitoring" collecting information about the company processes and providing decision support, then "Revenue Generation" for those DP that can be directly monetized.
+  * `StakeholderRoles: Array[String]`: List of stakeholders involved, interested and supporting this data product
+  * `PricingType: [Option[String]]`: It could be Subscription or Pay as You Consume
+  * `PricingInfo: [Yaml]`: Free structure field to describe the pricing structure of the data product
+  * `StrategicInitiatives: Array[String]` Provides the linking between the Data Product and the strategic initiatives of the company, for example is possible to link Company OKR
+* `TargetConsumption: [Array[String]]` Define which are the ideal consumption cases for this data product. It could be analytics, reporting, online application, etc.
 * `Specific: [Yaml]` this is a custom section where we can put all the information strictly related to a specific execution environment. It can also refer to an additional file. At this level we also embed all the information to provision the general infrastructure (resource groups, networking, etc.) needed for a specific Data Product. For example if a company decides to create a ResourceGroup for each data product and have a subscription reference for each domain and environment, it will be specified at this level. Also, it is recommended to put general security here, Azure Policy or IAM policies, VPC/Vnet, Subnet. This will be filled merging data defined at common level with values defined specifically for the selected environment.
 
 The **unique identifier** of a Data Product is the concatenation of Domain, Name and Version. So we will refer to the `DP_UK` as a URN which ends in the following way: `$DPDomain:$DPName:$DPMajorVersion`.
@@ -81,18 +98,18 @@ Constraints:
     * `IntervalOfChange: [Option[String]]` how often changes in the data are reflected.
     * `Timeliness: [Option[String]]` the skew between the time that a business fact occurs and when it becomes visibile in the data.
     * `UpTime: [Option[String]]` the percentage of port availability.
-  * `TermsAndConditions: [Option[String]]` If the data is usable only in specific environments.
   * `Endpoint: [Option[URL]]` this is the API endpoint that self-describe the output port and provide insightful information at runtime about the physical location of the data, the protocol must be used, etc.
-  * `biTempBusinessTs: [Option[String]]` name of the field representing the business timestamp, as per the "bi-temporality" definition; it should match with a field in the related `Schema`
-  * `biTempWriteTs: [Option[String]]` name of the field representing the technical (write) timestamp, as per the "bi-temporality" definition; it should match with a field in the related `Schema`
-* `DataSharingAgreement: [Yaml]` This part is covering usage, privacy, purpose, limitations and is independent by the data contract.
-  * `Purpose: [Option[String]]` what is the goal of this data set.
-  * `Billing: [Option[String]]` how a consumer will be charged back when it consumes this output port.
-  * `Security: [Option[String]]` additional information related to security aspects, like restrictions, masking, sensibile information and privacy.
-  * `IntendedUsage: [Option[String]]` any other information needed by the consumer in order to effectively consume the data, it could be related to technical stuff (e.g. extract no more than one year of data for good performances ) or to business domains (e.g. this data is only useful in the marketing domains).
-  * `Limitations: [Option[String]]` If any limitation is present it must be made super clear to the consumers.
-  * `LifeCycle: [Option[String]]` Describe how the data will be historicized and how and when it will be deleted.
-  * `Confidentiality: [Option[String]]` Describe what a consumer should do to keep the information confidential, how to process and store it. Permission to share or report it.
+  * `DataSharingAgreement: [Yaml]` This part is covering usage, privacy, purpose, limitations and is independent by the data contract.
+    * `TermsAndConditions: [Option[String]]` If the data is usable only in specific environments.
+    * `Purpose: [Option[String]]` what is the goal of this data set.
+    * `Billing: [Option[String]]` how a consumer will be charged back when it consumes this output port.
+    * `Security: [Option[String]]` additional information related to security aspects, like restrictions, masking, sensibile information and privacy.
+    * `IntendedUsage: [Option[String]]` any other information needed by the consumer in order to effectively consume the data, it could be related to technical stuff (e.g. extract no more than one year of data for good performances ) or to business domains (e.g. this data is only useful in the marketing domains).
+    * `Limitations: [Option[String]]` If any limitation is present it must be made super clear to the consumers.
+    * `LifeCycle: [Option[String]]` Describe how the data will be historicized and how and when it will be deleted.
+    * `Confidentiality: [Option[String]]` Describe what a consumer should do to keep the information confidential, how to process and store it. Permission to share or report it.
+* `biTempBusinessTs: [Option[String]]` name of the field representing the business timestamp, as per the "bi-temporality" definition; it should match with a field in the related `Schema`
+* `biTempWriteTs: [Option[String]]` name of the field representing the technical (write) timestamp, as per the "bi-temporality" definition; it should match with a field in the related `Schema`
 * `Tags: [Array[Yaml]]` Tag labels at OutputPort level, here we can have security classification for example (please refer to [OpenMetadata documentation](https://docs.open-metadata.org/v1.0.0/main-concepts/metadata-standard/schemas/type/taglabel)).
 * `SampleData: [Option[Yaml]]` provides a sample data of your Output Port (please refer to [OpenMetadata specification](https://docs.open-metadata.org/v1.0.0/main-concepts/metadata-standard/schemas/entity/data/table#properties)).
 * `SemanticLinking: [Option[Yaml]]` here we can express semantic relationships between this output port and other outputports (also coming from other domains and data products). For example, we could say that column "customerId" of our SQL Output Port references the column "id" of the SQL Output Port of the "Customer" Data Product.
