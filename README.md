@@ -45,6 +45,7 @@ The fixed structure must be technology-agnostic. The first fields of teh fixed s
   * `ResponseTime: [Option[String]]` define the amount of time needed to take care of an incoming feature
   * `ResolutionTime: [Option[String]]` define the amount of time needed to fix the date
   * `InformationTime: [Option[String]]` define the amount of time needed to answer clarification questions.
+  * `EndOfSupport: [Option[String]]` When this data product will go out of support.
 * `Status: [Option[String]]` this is an enum representing the status of this version of the Data Product. Allowed values are: `[Draft|Published|Retired]`. This is a metadata that communicates the overall status of the Data Product but is not reflected to the actual deployment status.
 * `Maturity: [Option[String]]` this is an enum to let the consumer understand if it is a tactical solution or not. It is really useful during migration from Data Warehouse or Data Lake. Allowed values are: `[Tactical|Strategic]`.
 * `Billing: [Option[Yaml]]` this is a free form key-value area where is possible to put information useful for resource tagging and billing.

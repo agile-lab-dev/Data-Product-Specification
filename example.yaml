@@ -18,6 +18,7 @@ supportSLA:
   responseTime: 1H
   resolutionTime: undefined
   informationTime: 2WD
+  endOfSupport: 01/01/2026
 status: DRAFT
 maturity: Strategic
 billing: {}
