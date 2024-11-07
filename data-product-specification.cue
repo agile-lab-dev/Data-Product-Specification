@@ -196,6 +196,7 @@ supportSLA: {
   responseTime:             string | null
   resolutionTime:           string | null
   informationTime:          string | null
+  endOfSupport:          string | null
 }
 status?:                     string & =~"(?i)^(draft|published|retired)$" | null
 maturity?:                   string & =~"(?i)^(tactical|strategic)$" | null
