@@ -185,7 +185,8 @@ kind:                string & =~"(?i)^(dataproduct)$"
 domain:              string
 country?:            string & =~"^[A-Z]{2,3}$" | null // ISO 3166-1 alpha-2/alpha-3 (e.g., IT, DE, USA)
 legalEntity?:        string | null                    // Owning legal entity identifier/name
-brand?:              string | null  
+brand?:              string | null
+businessFunction?:   string | null  
 version:             #Version
 let majorVersion = strings.Split(version, ".")[0]
 environment:                 string

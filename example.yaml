@@ -7,6 +7,7 @@ domain: my_domain
 country: it
 legalEntity: AgileL Lab
 brand: Witboost
+businessFunction: RiskManagement
 version: 1.0.0
 environment: development
 dataProductOwner: tom_smith_corp.com
