@@ -183,6 +183,9 @@ fullyQualifiedName?: string | null
 description:         string
 kind:                string & =~"(?i)^(dataproduct)$"
 domain:              string
+country?:            string & =~"^[A-Z]{2,3}$" | null // ISO 3166-1 alpha-2/alpha-3 (e.g., IT, DE, USA)
+legalEntity?:        string | null                    // Owning legal entity identifier/name
+brand?:              string | null  
 version:             #Version
 let majorVersion = strings.Split(version, ".")[0]
 environment:                 string
@@ -210,6 +213,16 @@ businessInfo: {
   pricingInfo: {...} | null
   ...
 }
+
+regulations?: {
+  doraClassification?: string & =~"(?i)^(critical|important|non-critical)$" | null
+  aiActRelevance?: string & =~"(?i)^(minimal|limited|high-risk|prohibited|none)$" | null
+  soxRelevance?: string & =~"(?i)^(Yes|No)$" | null
+  esgDisclosure?: string & =~"(?i)^(Yes|No)$" | null
+  baselApplicability?: string & =~"(?i)^(none|credit-risk|market-risk|operational-risk)$" | null
+  ...
+}
+
 securityInfo: {
   confidentiality: string & =~"(?i)^(Public|Internal|Confidential|Restricted|Secret)$"| null
   visibility: string & =~"(?i)^(Global|Department)$" | null
