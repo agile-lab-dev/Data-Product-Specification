@@ -4,6 +4,9 @@ fullyQualifiedName: My Data Product
 description: this data product is representing the xxx functional entity
 kind: dataproduct
 domain: my_domain
+country: it
+legalEntity: AgileL Lab
+brand: Witboost
 version: 1.0.0
 environment: development
 dataProductOwner: tom_smith_corp.com
@@ -29,6 +32,13 @@ businessInfo:
   pricingType: Subscription
   stakeholderRoles:
     - CMO
+regulations:
+  doraClassification: critical
+  aiActRelevance: high-risk
+  soxRelevance: true
+  esgDisclosure: false
+  baselApplicability: operational-risk
+
 securityInfo:
   visibility: Department
   confidentiality: Confidential
